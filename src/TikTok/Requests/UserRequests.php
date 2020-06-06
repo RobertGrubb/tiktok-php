@@ -54,4 +54,12 @@ class UserRequests
     $videos = $this->request->call($endpoint)->response();
     return $videos;
   }
+
+  public function video($username, $id) {
+    $endpoint = $this->endpoints->get('web.user-video', [ 'username' => $username, 'id' => $id ]);
+    $nextData = $this->request->call($endpoint)->extract();
+    if (isset($nextData->error)) return $nextData;
+    $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData);
+    return $videoData;
+  }
 }

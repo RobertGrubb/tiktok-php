@@ -42,7 +42,7 @@ class Endpoints {
 
     'web' => [
       'user-details' => 'https://www.tiktok.com/@{username}',
-      'discover'     => 'https://www.tiktok.com/discover?lang=en'
+      'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}'
     ],
 
     'm' => [
@@ -186,11 +186,17 @@ class Endpoints {
     if ($this->config->signMethod === 'datafetch') {
 
       // Sign the url with DataFetch
-      $signature = \TikTok\Core\Libraries\DataFetch::sign($url, $this->headers['m']['User-Agent']);
+      $signature = \TikTok\Core\Libraries\DataFetch::sign(
+        $url,
+        $this->headers['m']['User-Agent']
+      );
     } else {
 
       // Sign the url with node
-      $signature = \TikTok\Core\Libraries\Signer::execute($url, $this->headers['m']['User-Agent']);
+      $signature = \TikTok\Core\Libraries\Signer::execute(
+        $url,
+        $this->headers['m']['User-Agent']
+      );
     }
 
     // Return the URL
