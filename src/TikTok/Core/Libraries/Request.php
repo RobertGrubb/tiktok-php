@@ -133,7 +133,7 @@ class Request {
       $this->data = (object) [
         'error' => true,
         'error_message' => 'Empty response'
-      ]
+      ];
     }
 
     /**

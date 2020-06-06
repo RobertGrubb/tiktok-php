@@ -2,12 +2,12 @@
 
 namespace TikTok;
 
+// Libraries
 use TikTok\Core\Libraries\Request;
 use TikTok\Core\Libraries\Utilities;
 
+// Endpoints
 use TikTok\Core\Resources\Endpoints;
-
-use TikTok\Core\Exceptions\TikTokException;
 
 class Scraper
 {
@@ -69,6 +69,16 @@ class Scraper
      * Instantiate the user requests class
      */
     $this->user = new \TikTok\Requests\UserRequests($this, $this->request, $this->endpoints);
+  }
+
+
+  /**
+   * Gives ability to simply sign a url.
+   */
+  public function signUrl ($url) {
+    $userAgent = isset($this->config->userAgent) ? $this->config->userAgent : $this->endpoints->defaultUserAgent;
+    $signed = \TikTok\Core\Libraries\Signer::execute($url, $userAgent);
+    return $signed;
   }
 
   /**

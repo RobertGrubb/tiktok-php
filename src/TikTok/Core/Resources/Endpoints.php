@@ -5,7 +5,7 @@ namespace TikTok\Core\Resources;
 class Endpoints {
 
   // Set the default user agent if one is not given.
-  private $defaultUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36';
+  public $defaultUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36';
 
   /**
    * Store specific headers that need to be sent
