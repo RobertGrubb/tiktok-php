@@ -109,6 +109,8 @@ class Scraper
   private function _setInitial ($config) {
     $this->config = (object) [];
 
+    $this->config->signMethod = 'node';
+
     if (!is_null($config)) {
       if (!is_array($config)) return false;
 

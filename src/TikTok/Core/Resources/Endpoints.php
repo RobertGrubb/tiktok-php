@@ -181,8 +181,17 @@ class Endpoints {
     // Build the URL and query string
     $url = $url . http_build_query($vars) . '&verifyFp=';
 
-    // Sign the URL
-    $signature = \TikTok\Core\Libraries\Signer::execute($url, $this->headers['m']['User-Agent']);
+    $signature = [];
+
+    if ($this->config->signMethod === 'datafetch') {
+
+      // Sign the url with DataFetch
+      $signature = \TikTok\Core\Libraries\DataFetch::sign($url, $this->headers['m']['User-Agent']);
+    } else {
+
+      // Sign the url with node
+      $signature = \TikTok\Core\Libraries\Signer::execute($url, $this->headers['m']['User-Agent']);
+    }
 
     // Return the URL
     return isset($signature['url']) ? $signature['url'] : false;

@@ -9,6 +9,9 @@
 
 ```
 [
+  // Sign method
+  'signMethod' => 'node' // Or datafetch
+
   // User agent
   'userAgent' => '',
 
