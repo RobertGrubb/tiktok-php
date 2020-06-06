@@ -11,7 +11,21 @@ class Endpoints {
     ],
 
     'm' => [
-      'user-videos'  => ''
+      'user-videos'  => [
+        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'vars' => [
+          'count'       => 30,
+          'id'          => '', // required
+          'type'        => 1,
+          'secUid'      => '',
+          'maxCursor'   => 0,
+          'minCursor'   => 0,
+          'sourceType'  => '8',
+          'appId'       => '1233',
+          'region'      => 'US',
+          'language'    => 'en'
+        ]
+      ]
     ]
   ];
 
@@ -32,8 +46,23 @@ class Endpoints {
       return $url;
     } else {
 
+      $url = $this->endpoints[$type][$point]['url'];
+      $endpointVars = $this->endpoints[$type][$point]['vars'];
+
       // Gotta do some signing here.
-      return false;
+      return $this->buildUrl($url, array_merge($endpointVars, $vars));
     }
+  }
+
+  private function buildUrl($url, $vars) {
+
+    // Build the URL and query string
+    $url = $url . http_build_query($vars) . '&verifyFp=asdf';
+
+    // Sign the URL
+    $signature = \TikTok\Core\Libraries\Signer::execute($url, null);
+
+    // Return the URL
+    return isset($signature['url']) ? $signature['url'] : false;
   }
 }

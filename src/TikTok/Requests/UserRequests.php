@@ -8,8 +8,6 @@ use TikTok\Core\Exceptions\TikTokException;
 // Resources
 use TikTok\Core\Resources\Endpoints;
 
-// Models
-use TikTok\Core\Models\Account;
 
 class UserRequests
 {
@@ -37,9 +35,23 @@ class UserRequests
     $this->endpoints = new Endpoints();
   }
 
+  /**
+   * Gets details for a specific user.
+   */
   public function details ($username) {
     $endpoint = $this->endpoints->get('web.user-details', [ 'username' => $username ]);
-    $res = $this->request->call($endpoint);
-    print_r($res);
+    $nextData = $this->request->call($endpoint)->extract();
+    $userData = (new \TikTok\Core\Models\User())->fromNextData($nextData);
+    return $userData;
+  }
+
+  /**
+   * Gets videos for a specific user
+   * @TODO: Fix this
+   */
+  public function videos ($id) {
+    $endpoint = $this->endpoints->get('m.user-videos', [ 'id' => $id ]);
+    $videos = $this->request->call($endpoint)->response();
+    return $videos;
   }
 }
