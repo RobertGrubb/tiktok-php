@@ -5,6 +5,8 @@ namespace TikTok;
 use TikTok\Core\Libraries\Request;
 use TikTok\Core\Libraries\Utilities;
 
+use TikTok\Core\Resources\Endpoints;
+
 use TikTok\Core\Exceptions\TikTokException;
 
 class Scraper

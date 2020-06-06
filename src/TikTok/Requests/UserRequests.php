@@ -5,9 +5,6 @@ namespace TikTok\Requests;
 // Exceptions
 use TikTok\Core\Exceptions\TikTokException;
 
-// Resources
-use TikTok\Core\Resources\Endpoints;
-
 /**
  * All User related requests
  */

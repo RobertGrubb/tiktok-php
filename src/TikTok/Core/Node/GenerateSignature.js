@@ -1,6 +1,6 @@
 function sign(url) {
     global.navigator = {
-        userAgent: process.argv[2].replace('--userAgent=', ''),
+        userAgent: process.argv[3].replace('--userAgent=', ''),
     };
     global.location = {
         href: 'https://www.tiktok.com/',

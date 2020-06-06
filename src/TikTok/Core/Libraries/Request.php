@@ -80,6 +80,12 @@ class Request {
     // Curl info
     $info = curl_getinfo($ch);
 
+    // print_r([
+    //   'info' => $info,
+    //   'headers' => $headers,
+    //   'endpoint' => $endpoint
+    // ]);
+
     // Close CURL
     curl_close ($ch);
 
