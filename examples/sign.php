@@ -11,7 +11,9 @@ require_once __DIR__ . '/../src/TikTok.php';
 use TikTok\Scraper;
 
 // Instantiate TikTok Scraper library
-$scraper = new Scraper();
+$scraper = new Scraper([
+  'signMethod' => 'datafetch' // or 'node' (which is default)
+]);
 
 
 try {

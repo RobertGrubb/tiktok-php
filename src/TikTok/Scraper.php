@@ -90,8 +90,25 @@ class Scraper
    */
   public function signUrl ($url) {
     $userAgent = isset($this->config->userAgent) ? $this->config->userAgent : $this->endpoints->defaultUserAgent;
-    $signed = \TikTok\Core\Libraries\Signer::execute($url, $userAgent);
-    return $signed;
+    $signature = [];
+
+    if ($this->config->signMethod === 'datafetch') {
+
+      // Sign the url with DataFetch
+      $signature = \TikTok\Core\Libraries\DataFetch::sign(
+        $url,
+        $userAgent
+      );
+    } else {
+
+      // Sign the url with node
+      $signature = \TikTok\Core\Libraries\Signer::execute(
+        $url,
+        $userAgent
+      );
+    }
+    
+    return $signature;
   }
 
   /**
