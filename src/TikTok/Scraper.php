@@ -3,6 +3,7 @@
 namespace TikTok;
 
 use TikTok\Core\Libraries\Request;
+use TikTok\Core\Libraries\Utilities;
 
 use TikTok\Core\Exceptions\TikTokException;
 
@@ -29,8 +30,8 @@ class Scraper
    */
   public function __construct($config = null) {
 
-    // Finds and sets the vendor bin path
-    $this->_setVendorBinpath();
+    // Finds the bin path
+    Utilities::findBin();
 
     /**
      * Set the initial configuration variables.
@@ -94,19 +95,6 @@ class Scraper
   // Set an error
   public function setError ($error) {
     $this->error = $error;
-  }
-
-  /**
-   * Attempts to find the vendor bin path
-   * so node can be executed.
-   */
-  private function _setVendorBinPath () {
-    if (is_dir(__DIR__ . '/../../vendor/bin/'))
-      defined('VENDOR_BIN_PATH') || define('VENDOR_BIN_PATH', __DIR__ . '/../../vendor/bin/');
-    elseif (is_dir(__DIR__ . '/../../../../vendor/bin/'))
-      defined('VENDOR_BIN_PATH') || define('VENDOR_BIN_PATH', __DIR__ . '/../../../../vendor/bin/');
-    else
-      throw new TikTokException('Vendor bin path not found.');
   }
 
 }
