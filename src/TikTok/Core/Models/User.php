@@ -20,6 +20,7 @@ class User
     // Set Userdata
     $userData = $NEXT_DATA['props']['pageProps']['userData'];
 
+    // set all keys from userData to the instance.
     foreach ($userData as $key => $val) $instance->{$key} = $val;
 
     return $instance;

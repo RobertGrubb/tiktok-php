@@ -41,6 +41,7 @@ class UserRequests
   public function details ($username) {
     $endpoint = $this->endpoints->get('web.user-details', [ 'username' => $username ]);
     $nextData = $this->request->call($endpoint)->extract();
+    if (isset($nextData->error)) return $nextData;
     $userData = (new \TikTok\Core\Models\User())->fromNextData($nextData);
     return $userData;
   }

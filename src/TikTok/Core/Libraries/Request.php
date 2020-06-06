@@ -172,11 +172,19 @@ class Request {
    * Extract the NEXT_DATA variable from the DOM.
    */
   public function extract () {
+    
+    // If is an object, it's most likely an error.
+    if (is_object($this->data)) return $this->data;
+
+    // Attempt to pick NEXT_DATA from DOM
     if (preg_match_all('#\<script id=\"__NEXT_DATA__\" type=\"application/json\" crossorigin=\"anonymous\">(.*?)\<\/script\>#', $this->data, $out)) {
       return json_decode($out[1][0], true, 512, JSON_BIGINT_AS_STRING);
     }
 
-    return null;
+    return (object) [
+      'error' => true,
+      'error_message' => 'Unable to retrieve NEXT_DATA from DOM'
+    ];
   }
 
   private function endpointType ($endpoint) {
