@@ -14,7 +14,6 @@ use TikTok\Scraper;
 $scraper = new Scraper();
 
 
-// Needs a cookie session to work effectively.
 try {
   $data = $scraper->signUrl('https://m.tiktok.com/api/item_list/?count=30&id=6736134763096409093&type=1&secUid=&maxCursor=0&minCursor=0&sourceType=8&appId=1233&region=US&language=en&verifyFp=');
   print_r($data);

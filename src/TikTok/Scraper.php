@@ -71,6 +71,15 @@ class Scraper
     $this->user = new \TikTok\Requests\UserRequests($this, $this->request, $this->endpoints);
   }
 
+  /**
+   * Gets videos for a specific user
+   */
+  public function trending ($count = 25) {
+    $endpoint = $this->endpoints->get('m.trending', [ 'count' => $count ]);
+    $trending = $this->request->call($endpoint)->response();
+    return $trending;
+  }
+
 
   /**
    * Gives ability to simply sign a url.

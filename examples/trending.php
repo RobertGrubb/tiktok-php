@@ -15,7 +15,7 @@ $scraper = new Scraper();
 
 
 try {
-  $data = $scraper->user->details('iratee');
+  $data = $scraper->trending(25);
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

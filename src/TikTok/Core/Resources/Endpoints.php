@@ -59,6 +59,23 @@ class Endpoints {
           'region'      => 'US',
           'language'    => 'en'
         ]
+      ],
+
+      'trending'    => [
+        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'vars' => [
+          'secUid'      => '',
+          'id'          => 1,
+          'type'        => 5,
+          'count'       => 25,
+          'minCursor'   => 0,
+          'maxCursor'   => 0,
+          'language'    => 'en',
+          'sourceType'  => '12',
+          'verifyFp'    => '',
+          'region'      => 'US',
+          'appId'       => '1233'
+        ]
       ]
     ]
   ];
