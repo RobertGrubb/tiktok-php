@@ -21,6 +21,12 @@ class Scraper
   private $request = null;
 
   /**
+   * Endpoints instance holder
+   * @var TikTok\Core\Resources\Endpoints
+   */
+  private $endpoints = null;
+
+  /**
    * Error information
    */
   public $error = false;
@@ -50,10 +56,17 @@ class Scraper
     /**
      * Instantiate the request instance.
      */
-    $this->request = new Request($this->config);
+    $this->endpoints = new Endpoints($this->config);
 
-    // Instantiate the account request methods
-    $this->user = new \TikTok\Requests\UserRequests($this, $this->request);
+    /**
+     * Instantiate the request instance.
+     */
+    $this->request = new Request($this->config, $this->endpoints);
+
+    /**
+     * Instantiate the user requests class
+     */
+    $this->user = new \TikTok\Requests\UserRequests($this, $this->request, $this->endpoints);
   }
 
   /**

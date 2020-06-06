@@ -11,8 +11,11 @@ class Request {
 
   public $data = false;
 
-  public function __construct ($config) {
+  private $endpoints = false;
+
+  public function __construct ($config, $endpoints) {
     $this->config = $config;
+    $this->endpoints = $endpoints;
   }
 
   public function call ($endpoint, $customHeaders = []) {
@@ -125,29 +128,10 @@ class Request {
   }
 
   private function getHeaders($endpoint) {
-    $headers = [
-      'web' => [
-        'Authority'       => 'www.tiktok.com',
-        'Upgrade-Insecure-Requests' => '1',
-        'User-Agent'      => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36',
-        'Sec-Fetch-Dest'  => 'document',
-        'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'Sec-Fetch-Site'  => 'none',
-        'Sec-Fetch-Mode'  => 'navigate',
-        'Sec-Fetch-User'  => '?1',
-        'Accept-Language' => 'en-US,en;q=0.9',
-        'Referer'         => 'https://www.tiktok.com/'
-      ],
-      'm'  => [
-        'Accept' => 'application/json, text/plain, */*',
-        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36',
-        'Origin' => 'https://www.tiktok.com',
-        'Referer' => 'https://www.tiktok.com/',
-        'Accept-Language' => 'en-US,en;q=0.9',
-      ]
-    ];
 
-    return $this->formatHeaders($headers[$this->endpointType($endpoint)]);
+    return $this->formatHeaders(
+      $this->endpoints->headers[$this->endpointType($endpoint)]
+    );
   }
 
   private function formatHeaders($headers = array()) {

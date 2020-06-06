@@ -8,7 +8,9 @@ use TikTok\Core\Exceptions\TikTokException;
 // Resources
 use TikTok\Core\Resources\Endpoints;
 
-
+/**
+ * All User related requests
+ */
 class UserRequests
 {
 
@@ -28,11 +30,12 @@ class UserRequests
    */
   public function __construct (
     $instance,
-    $request
+    $request,
+    $endpoints
   ) {
     $this->instance  = $instance;
     $this->request   = $request;
-    $this->endpoints = new Endpoints();
+    $this->endpoints = $endpoints;
   }
 
   /**
@@ -47,7 +50,6 @@ class UserRequests
 
   /**
    * Gets videos for a specific user
-   * @TODO: Fix this
    */
   public function videos ($id) {
     $endpoint = $this->endpoints->get('m.user-videos', [ 'id' => $id ]);

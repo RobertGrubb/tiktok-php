@@ -1,6 +1,6 @@
 function sign(url) {
     global.navigator = {
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36',
+        userAgent: process.argv[2].replace('--userAgent=', ''),
     };
     global.location = {
         href: 'https://www.tiktok.com/',
