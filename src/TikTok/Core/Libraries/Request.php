@@ -2,19 +2,38 @@
 
 namespace TikTok\Core\Libraries;
 
-use TikTok\Core\Exceptions\TikTokException;
-
-
+/**
+ * Handles communcation to TikTok.
+ */
 class Request {
 
+  /**
+   * Scraper configuration
+   * @var object
+   */
   public $config;
 
+  /**
+   * Data response variable
+   * @var object
+   */
   public $data = false;
 
+  /**
+   * Endpoint instance holder
+   * @var TikTok\Core\Resources\Endpoints
+   */
   private $endpoints = false;
 
+  /**
+   * Class construction
+   */
   public function __construct ($config, $endpoints) {
+
+    // Set the config
     $this->config = $config;
+
+    // Set the endpoints instance
     $this->endpoints = $endpoints;
   }
 
@@ -26,10 +45,13 @@ class Request {
 	  // Initiate CURL
 	  $ch = curl_init();
 
+    // Set the timeout
     $timeout = isset($this->config->timeout) ? $this->config->timeout : 30;
 
     // Set the URL
     curl_setopt($ch, CURLOPT_URL, $endpoint);
+
+    // Timeout
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 
     // Proxy setup:
@@ -71,8 +93,10 @@ class Request {
 	  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($headers, $customHeaders));
     curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+
+    // Merge any custom headers with the fetched headers from Endpoints
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($headers, $customHeaders));
 
     // Get the response
     $response = curl_exec($ch);
@@ -89,6 +113,10 @@ class Request {
     // Close CURL
     curl_close ($ch);
 
+    /**
+     * If the http code is not 200, return an errror with a
+     * message.
+     */
     if ($info['http_code'] !== 200) {
       $this->data = (object) [
         'error' => true,
@@ -98,6 +126,20 @@ class Request {
       return $this;
     }
 
+    /**
+     * If the response is empty, return an error.
+     */
+    if (empty($response)) {
+      $this->data = (object) [
+        'error' => true,
+        'error_message' => 'Empty response'
+      ]
+    }
+
+    /**
+     * If this is a m.tiktok.com endpoint, attempt to
+     * decode the json response.
+     */
     if ($this->endpointType($endpoint) === 'm') {
       try {
         $response = json_decode($response);
@@ -112,14 +154,23 @@ class Request {
       }
     }
 
+    // Set the class data variable, and return the instance for chaining.
     $this->data = $response;
     return $this;
 	}
 
+  /**
+   * Simply returns the data variable.
+   */
   public function response () {
     return $this->data;
   }
 
+  /**
+   * For web endpoints only:
+   *
+   * Extract the NEXT_DATA variable from the DOM.
+   */
   public function extract () {
     if (preg_match_all('#\<script id=\"__NEXT_DATA__\" type=\"application/json\" crossorigin=\"anonymous\">(.*?)\<\/script\>#', $this->data, $out)) {
       return json_decode($out[1][0], true, 512, JSON_BIGINT_AS_STRING);
@@ -133,6 +184,9 @@ class Request {
     return 'm';
   }
 
+  /**
+   * Gets headers for the specific endpoint platform.
+   */
   private function getHeaders($endpoint) {
 
     return $this->formatHeaders(
@@ -140,6 +194,9 @@ class Request {
     );
   }
 
+  /**
+   * Formats the headers for CURL
+   */
   private function formatHeaders($headers = array()) {
     $res = [];
     foreach ($headers as $key => $header) $res[] = $key . ': ' . $header;
