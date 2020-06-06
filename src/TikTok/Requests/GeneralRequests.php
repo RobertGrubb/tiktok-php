@@ -6,7 +6,7 @@ namespace TikTok\Requests;
 use TikTok\Core\Exceptions\TikTokException;
 
 /**
- * All User related requests
+ * All general requests (trending, discover)
  */
 class GeneralRequests
 {
