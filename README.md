@@ -23,3 +23,44 @@
   'timeout' => 20
 ]
 ```
+
+## User data
+
+```
+$scraper->user->details('username');
+```
+
+## User videos
+
+```
+$scraper->user->videos(123415125125);
+```
+
+## Discover
+
+```
+$scraper->general->discover('music');
+$scraper->general->discover('user');
+$scraper->general->discover('hashtag');
+
+// Offset and count:
+
+$scraper->general->discover('music', [
+  'count' => 10,
+  'offset' => 10
+]);
+
+```
+
+## Trending
+
+```
+// 25 being the number of items to return.
+$scraper->general->discover(25);
+```
+
+## Signing a URL
+
+```
+$scraper->signUrl('TIKTOK_URL_HERE');
+```
