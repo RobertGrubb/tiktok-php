@@ -49,8 +49,8 @@ class UserRequests
   /**
    * Gets videos for a specific user
    */
-  public function videos ($id) {
-    $endpoint = $this->endpoints->get('m.user-videos', [ 'id' => $id ]);
+  public function videos ($id, $count = 30) {
+    $endpoint = $this->endpoints->get('m.user-videos', [ 'id' => $id, 'count' => $count ]);
     $videos = $this->request->call($endpoint)->response();
     return $videos;
   }

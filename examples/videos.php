@@ -16,7 +16,7 @@ $scraper = new Scraper();
 
 // Needs a cookie session to work effectively.
 try {
-  $data = $scraper->user->videos(6736134763096409093);
+  $data = $scraper->user->videos(6736134763096409093, 2);
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

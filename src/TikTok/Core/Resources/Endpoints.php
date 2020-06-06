@@ -49,7 +49,7 @@ class Endpoints {
         'url'  => 'https://m.tiktok.com/api/item_list/?',
         'vars' => [
           'count'       => 30,
-          'id'          => '', // required
+          'id'          => '', // required to be passed
           'type'        => 1,
           'secUid'      => '',
           'maxCursor'   => 0,
