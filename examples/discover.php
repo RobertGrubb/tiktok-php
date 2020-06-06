@@ -15,7 +15,13 @@ $scraper = new Scraper();
 
 
 try {
-  $data = $scraper->general->trending(25);
+
+  /**
+   * 1st Param: type ('hashtag', 'music', 'user')
+   * 2nd param: Array of params (count, offset)
+   */
+  
+  $data = $scraper->general->discover('hashtag', [ 'count' => 10, 'offset' => 10 ]);
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

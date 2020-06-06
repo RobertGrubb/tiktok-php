@@ -68,16 +68,20 @@ class Scraper
     /**
      * Instantiate the user requests class
      */
-    $this->user = new \TikTok\Requests\UserRequests($this, $this->request, $this->endpoints);
-  }
+    $this->user = new \TikTok\Requests\UserRequests(
+      $this,
+      $this->request,
+      $this->endpoints
+    );
 
-  /**
-   * Gets videos for a specific user
-   */
-  public function trending ($count = 25) {
-    $endpoint = $this->endpoints->get('m.trending', [ 'count' => $count ]);
-    $trending = $this->request->call($endpoint)->response();
-    return $trending;
+    /**
+     * Instantiate the general requests class
+     */
+    $this->general = new \TikTok\Requests\GeneralRequests(
+      $this,
+      $this->request,
+      $this->endpoints
+    );
   }
 
 

@@ -41,7 +41,8 @@ class Endpoints {
   public $endpoints = [
 
     'web' => [
-      'user-details' => 'https://www.tiktok.com/@{username}'
+      'user-details' => 'https://www.tiktok.com/@{username}',
+      'discover'     => 'https://www.tiktok.com/discover?lang=en'
     ],
 
     'm' => [
@@ -75,6 +76,45 @@ class Endpoints {
           'verifyFp'    => '',
           'region'      => 'US',
           'appId'       => '1233'
+        ]
+      ],
+
+      'discover-user' => [
+        'url' => 'https://m.tiktok.com/api/discover/user/?',
+        'vars' => [
+          'discoverType' => 0,
+          'needItemList' => 'false',
+          'keyWord'      => '',
+          'offset'       => 0,
+          'count'        => 28,
+          'useRecommend' => 'false',
+          'language'     => 'en'
+        ]
+      ],
+
+      'discover-music' => [
+        'url' => 'https://m.tiktok.com/api/discover/music/?',
+        'vars' => [
+          'discoverType' => 0,
+          'needItemList' => 'false',
+          'keyWord'      => '',
+          'offset'       => 0,
+          'count'        => 28,
+          'useRecommend' => 'false',
+          'language'     => 'en'
+        ]
+      ],
+
+      'discover-hashtag' => [
+        'url' => 'https://m.tiktok.com/api/discover/challenge/?',
+        'vars' => [
+          'discoverType' => 0,
+          'needItemList' => 'false',
+          'keyWord'      => '',
+          'offset'       => 0,
+          'count'        => 28,
+          'useRecommend' => 'false',
+          'language'     => 'en'
         ]
       ]
     ]
