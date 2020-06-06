@@ -1,8 +1,8 @@
 <?php
 
-namespace Instagram\Core\Exceptions;
+namespace TikTok\Core\Exceptions;
 
-class InstagramException extends \Exception
+class TikTokException extends \Exception
 {
 
 }
