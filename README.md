@@ -64,6 +64,12 @@ $scraper->general->discover(25);
 
 ## Signing a URL
 
+2 methods of signing the URL is provided.
+
+1. You can use nodejs, this package will look to see if you have it installed, however, if you do not, it will attempt to install it.
+
+2. You can use the datafet.ch api that I have personally built to accept requests from anyone to sign a tiktok url. (This package handles it automatically if you set `'signMethod' => 'datafetch'` in the configuration.)
+
 ```
 $scraper->signUrl('TIKTOK_URL_HERE');
 ```
