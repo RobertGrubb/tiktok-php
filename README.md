@@ -2,8 +2,35 @@
 
 `Status: Work in progress.`
 
-*NOTE* I will be pushing code out for this gradually, and is currently not pushed out to a package at the moment. Will publish to a package soon.
+*NOTE* I will be pushing code out for this gradually.
 
+## Installation
+
+```
+composer require robert-grubb/tiktok-php
+```
+
+## Instantiation
+
+```
+require './vendor/autoload.php';
+
+use TikTok\Scraper;
+
+// Instantiate TikTok Scraper library
+$scraper = new Scraper([
+  // Sign method
+  'signMethod' => 'datafetch'
+  'datafetchApiKey' => ''
+  'userAgent' => '',
+  'proxy' => [
+    'protocol' => 'http',
+    'address' => '127.0.0.1:8080',
+    'auth' => 'username:password'
+  ],
+  'timeout' => 20
+]);
+```
 
 ## Configuration Explained
 
