@@ -74,6 +74,10 @@ $scraper->general->discover(25);
 $scraper->signUrl('TIKTOK_URL_HERE');
 ```
 
+## DataFetch API Key
+
+DataFetch API does rate limit your requests at a max of 100 requests per 15 minutes. This can be avoided by obtaining an API key, which will then give you access to unlimited requests. You can obtain access by contacting me at `matt [at] grubb [dot] com`.
+
 # Legal
 
 This repo and it's contents are in no way affiliated with, authorized, maintained, sponsored or endorsed by TikTok or any of its affiliates or subsidiaries. This is an independent and unofficial package. Use at your own risk.

@@ -6,13 +6,14 @@ require_once __DIR__ . '/../src/TikTok.php';
 /**
  * Get development config
  */
-// config = require_once __DIR__ . '/env.php';
+$config = require_once __DIR__ . '/env.php';
 
 use TikTok\Scraper;
 
 // Instantiate TikTok Scraper library
 $scraper = new Scraper([
-  'signMethod' => 'datafetch' // or 'node' (which is default)
+  'signMethod' => 'datafetch', // or 'node' (which is default)
+  'datafetchApiKey' => $config['datafetchApiKey'] // Will ignore the rate limits
 ]);
 
 

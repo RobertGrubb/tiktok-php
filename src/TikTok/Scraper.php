@@ -97,7 +97,8 @@ class Scraper
       // Sign the url with DataFetch
       $signature = \TikTok\Core\Libraries\DataFetch::sign(
         $url,
-        $userAgent
+        $userAgent,
+        $this->config->datafetchApiKey
       );
     } else {
 
@@ -107,7 +108,7 @@ class Scraper
         $userAgent
       );
     }
-    
+
     return $signature;
   }
 
@@ -127,6 +128,7 @@ class Scraper
     $this->config = (object) [];
 
     $this->config->signMethod = 'node';
+    $this->config->datafetchApiKey = null;
 
     if (!is_null($config)) {
       if (!is_array($config)) return false;

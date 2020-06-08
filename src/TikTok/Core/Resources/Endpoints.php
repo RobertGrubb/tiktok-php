@@ -188,7 +188,8 @@ class Endpoints {
       // Sign the url with DataFetch
       $signature = \TikTok\Core\Libraries\DataFetch::sign(
         $url,
-        $this->headers['m']['User-Agent']
+        $this->headers['m']['User-Agent'],
+        $this->config->datafetchApiKey
       );
     } else {
 

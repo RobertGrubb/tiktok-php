@@ -7,11 +7,15 @@ class DataFetch {
   /**
    * Used to communicate with the Heartbeat API
    */
-  public static function sign($url, $userAgent) {
+  public static function sign($url, $userAgent, $key = null) {
       // Initiate CURL
       $ch = curl_init();
 
       $link = 'http://tiktok.datafet.ch/sign';
+
+      if (!is_null($key)) $link .= '?key=' . $key;
+
+      echo $link . PHP_EOL . PHP_EOL;
 
       $vars = [
         'url' => $url,
