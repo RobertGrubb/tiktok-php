@@ -2,6 +2,8 @@
 
 namespace TikTok\Core\Libraries;
 
+use TikTok\Core\Exceptions\TikTokException;
+
 class Utilities {
 
   /**
@@ -15,8 +17,8 @@ class Utilities {
       defined('VENDOR_BIN_PATH') || define('VENDOR_BIN_PATH', __DIR__ . '/../../../../vendor/bin/');
 
     // The package location
-    elseif (is_dir(__DIR__ . '/../../../../../../vendor/bin/'))
-      defined('VENDOR_BIN_PATH') || define('VENDOR_BIN_PATH', __DIR__ . '/../../../../../../vendor/bin/');
+    elseif (is_dir(__DIR__ . '/../../../../../../bin/'))
+      defined('VENDOR_BIN_PATH') || define('VENDOR_BIN_PATH', __DIR__ . '/../../../../../../bin/');
 
     // Not really sure where it went
     else
