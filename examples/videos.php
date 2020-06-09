@@ -15,11 +15,11 @@ $scraper = new Scraper();
 
 
 try {
-  $data = $scraper->user->videos(6736134763096409093, 2);
+  $data = $scraper->user->videos('iratee', 2);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);
-  
+
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

@@ -11,6 +11,8 @@ class User
   public function fromNextData ($NEXT_DATA) {
     $instance = new self();
 
+    print_r($NEXT_DATA);
+
     // Validate the response data
     if (count($NEXT_DATA) === 0) return $this->error('__NEXT_DATA__');
     if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');

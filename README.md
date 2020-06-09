@@ -2,7 +2,9 @@
 
 `Status: Work in progress.`
 
-*NOTE* I will be pushing code out for this gradually.
+```
+By default, this scraper will attempt to use NodeJS to sign the URL. If you do not have node installed, it will attempt to install it during the composer install step. If you do, it will simply find the path to it. If you'd like to change this logic, you can read more below about setting your signMethod => 'datafetch', an API I have created for signing tiktok urls.
+```
 
 ## Installation
 

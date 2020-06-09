@@ -32,7 +32,7 @@ class UserRequests
     if (!$this->instance->valid($username)) return false;
 
     // Check for the @ symbol, format accordingly.
-    if (strpos($username, '@') === false) $username = '@' . $username;
+    if (strpos($username, '@') !== false) $username = ltrim($username, '@');
 
     $endpoint = $this->instance->endpoints->get('web.user-details', [ 'username' => $username ]);
     $nextData = $this->instance->request->call($endpoint)->extract();
@@ -47,10 +47,19 @@ class UserRequests
   /**
    * Gets videos for a specific user
    */
-  public function videos ($id = null, $count = 30) {
+  public function videos ($user = null, $count = 30) {
+    // Set id to user by default.
+    $id = $user;
 
     // Validate arguments
-    if (!$this->instance->valid($id)) return false;
+    if (!$this->instance->valid($user)) return false;
+
+    // If passed is a username
+    if (!preg_match("/^\d+$/", $user)) {
+      $userData = $this->details($user);
+      if (!$userData) return false;
+      $id = $userData->userId;
+    }
 
     $endpoint = $this->instance->endpoints->get('m.user-videos', [ 'id' => $id, 'count' => $count ]);
     $videos = $this->instance->request->call($endpoint)->response();
@@ -67,7 +76,7 @@ class UserRequests
     if (!$this->instance->valid($username, $id)) return false;
 
     // Check for the @ symbol, format accordingly.
-    if (strpos($username, '@') === false) $username = '@' . $username;
+    if (strpos($username, '@') !== false) $username = ltrim($username, '@');
 
     $endpoint = $this->instance->endpoints->get('web.user-video', [ 'username' => $username, 'id' => $id ]);
     $nextData = $this->instance->request->call($endpoint)->extract();
