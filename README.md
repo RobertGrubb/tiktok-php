@@ -87,8 +87,13 @@ $scraper->user->video('username', 123415125125);
 ## Download User Video
 
 ```
-// ./ being the path you want to save it to.
-$scraper->user->downloadVideo('username', 123415125125, './');
+/**
+ * 1st Param: username
+ * 2nd Param: video_id
+ * 3rd Param: watermark (default true)
+ * 4th Param: path to download
+ */
+$scraper->user->downloadVideo('username', 123415125125, true, './');
 ```
 
 ## Discover
