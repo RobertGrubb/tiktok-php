@@ -79,6 +79,11 @@ class Scraper
      * Instantiate the trending requests class
      */
     $this->trending = new \TikTok\Requests\TrendingRequests($this);
+
+    /**
+     * Instantiate the hashtag requests class
+     */
+    $this->hashtag = new \TikTok\Requests\HashtagRequests($this);
   }
 
 
