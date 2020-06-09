@@ -69,9 +69,9 @@ $scraper->user->videos(123415125125);
 ## Discover
 
 ```
-$scraper->general->discover('music');
-$scraper->general->discover('user');
-$scraper->general->discover('hashtag');
+$scraper->discover->get('music');
+$scraper->discover->get('user');
+$scraper->discover->get('hashtag');
 
 // Offset and count:
 
@@ -86,7 +86,20 @@ $scraper->general->discover('music', [
 
 ```
 // 25 being the number of items to return.
-$scraper->general->discover(25);
+$scraper->trending->videos(25);
+```
+
+## Hashtag Data
+
+```
+$scraper->hashtag->data('beatbox');
+```
+
+## Hashtag Videos
+
+```
+// 30 being the count of videos to return
+$scraper->hashtag->videos('beatbox', 30);
 ```
 
 ## Signing a URL
