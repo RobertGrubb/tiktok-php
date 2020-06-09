@@ -10,7 +10,7 @@ $scraper = new Scraper();
 
 try {
   // username & id of video
-  $data = $scraper->user->downloadVideo('iratee', 6821468282583928069);
+  $data = $scraper->user->downloadVideo('iratee', 6821468282583928069, false);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

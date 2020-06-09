@@ -15,7 +15,7 @@ class Scraper
   /**
    * Default configuration
    */
-  private $config  = null;
+  public $config  = null;
 
   /**
    * Request instance holder

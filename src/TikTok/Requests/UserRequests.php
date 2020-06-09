@@ -107,7 +107,7 @@ class UserRequests
     return $videoData;
   }
 
-  public function downloadVideo ($username = null, $id = null, $path = './') {
+  public function downloadVideo ($username = null, $id = null, $watermark = true, $path = './') {
 
     // Validate arguments
     if (!$this->instance->valid($username, $id)) return false;
@@ -120,6 +120,9 @@ class UserRequests
 
     // Get the URL
     $url = $videoData->itemInfos->video->urls[0];
+
+    // Get the URL
+    if ($watermark === false) $url = \TikTok\Core\Libraries\Downloader::getUrlWithoutWatermark($url);
 
     // Download the video
     return \TikTok\Core\Libraries\Downloader::video($url, $path);
