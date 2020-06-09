@@ -15,7 +15,7 @@ $scraper = new Scraper();
 
 
 try {
-  $data = $scraper->general->trending(25);
+  $data = $scraper->trending->videos(25);
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

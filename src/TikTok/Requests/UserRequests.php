@@ -16,31 +16,19 @@ class UserRequests
    */
   private $request = null;
 
-  // All endpoints for dom and api requests
-  private $endpoints    = null;
-
-  // setError function from parent.
-  private $instance = null;
-
   /**
    * Class constructor
    */
-  public function __construct (
-    $instance,
-    $request,
-    $endpoints
-  ) {
+  public function __construct ($instance) {
     $this->instance  = $instance;
-    $this->request   = $request;
-    $this->endpoints = $endpoints;
   }
 
   /**
    * Gets details for a specific user.
    */
   public function details ($username) {
-    $endpoint = $this->endpoints->get('web.user-details', [ 'username' => $username ]);
-    $nextData = $this->request->call($endpoint)->extract();
+    $endpoint = $this->instance->endpoints->get('web.user-details', [ 'username' => $username ]);
+    $nextData = $this->instance->request->call($endpoint)->extract();
     if (isset($nextData->error)) return $nextData;
     $userData = (new \TikTok\Core\Models\User())->fromNextData($nextData);
     return $userData;
@@ -50,14 +38,14 @@ class UserRequests
    * Gets videos for a specific user
    */
   public function videos ($id, $count = 30) {
-    $endpoint = $this->endpoints->get('m.user-videos', [ 'id' => $id, 'count' => $count ]);
-    $videos = $this->request->call($endpoint)->response();
+    $endpoint = $this->instance->endpoints->get('m.user-videos', [ 'id' => $id, 'count' => $count ]);
+    $videos = $this->instance->request->call($endpoint)->response();
     return $videos;
   }
 
   public function video($username, $id) {
-    $endpoint = $this->endpoints->get('web.user-video', [ 'username' => $username, 'id' => $id ]);
-    $nextData = $this->request->call($endpoint)->extract();
+    $endpoint = $this->instance->endpoints->get('web.user-video', [ 'username' => $username, 'id' => $id ]);
+    $nextData = $this->instance->request->call($endpoint)->extract();
     if (isset($nextData->error)) return $nextData;
     $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData);
     return $videoData;
