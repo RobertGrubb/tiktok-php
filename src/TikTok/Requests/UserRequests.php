@@ -44,6 +44,25 @@ class UserRequests
     return $userData;
   }
 
+  public function search ($keyword = null, $count = 30) {
+
+    // Validate arguments
+    if (!$this->instance->valid($keyword)) return false;
+
+    $endpoint = $this->instance->endpoints->get('m.discover-user', [
+      'discoverType' => 1,
+      'keyWord' => $keyword,
+      'count' => $count
+    ]);
+
+    $results = $this->instance->request->call($endpoint)->response();
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($results->error)) return $this->instance->setError($results->message);
+
+    return $results;
+  }
+
   /**
    * Gets videos for a specific user
    */
