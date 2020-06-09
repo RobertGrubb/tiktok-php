@@ -120,7 +120,7 @@ class Request {
     if ($info['http_code'] !== 200) {
       $this->data = (object) [
         'error' => true,
-        'error_message' => 'Status code ' . $info['http_code'] . ' was returned'
+        'message' => 'Status code ' . $info['http_code'] . ' was returned'
       ];
 
       return $this;
@@ -132,7 +132,7 @@ class Request {
     if (empty($response)) {
       $this->data = (object) [
         'error' => true,
-        'error_message' => 'Empty response'
+        'message' => 'Empty response'
       ];
     }
 
@@ -147,7 +147,7 @@ class Request {
 
         $this->data = (object) [
           'error' => true,
-          'error_message' => 'Unable to decode JSON data'
+          'message' => 'Unable to decode JSON data'
         ];
 
         return $this;
@@ -172,7 +172,7 @@ class Request {
    * Extract the NEXT_DATA variable from the DOM.
    */
   public function extract () {
-    
+
     // If is an object, it's most likely an error.
     if (is_object($this->data)) return $this->data;
 
@@ -183,7 +183,7 @@ class Request {
 
     return (object) [
       'error' => true,
-      'error_message' => 'Unable to retrieve NEXT_DATA from DOM'
+      'message' => 'Unable to retrieve NEXT_DATA from DOM'
     ];
   }
 

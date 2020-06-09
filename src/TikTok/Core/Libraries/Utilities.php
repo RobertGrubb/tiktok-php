@@ -24,4 +24,13 @@ class Utilities {
     else
       throw new TikTokException('Vendor bin path not found.');
   }
+
+  public static function varName () {
+    $bt   = debug_backtrace();
+    $file = file($bt[0]['file']);
+    $src  = $file[$bt[0]['line']-1];
+    $pat = '#(.*)'.__FUNCTION__.' *?\( *?(.*) *?\)(.*)#i';
+    $var  = preg_replace($pat, '$2', $src);
+    return trim($var);
+  }
 }

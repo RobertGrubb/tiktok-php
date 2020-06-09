@@ -2,7 +2,9 @@
 
 `Status: Work in progress.`
 
-*NOTE* I will be pushing code out for this gradually.
+```
+By default, this scraper will attempt to use NodeJS to sign the URL. If you do not have node installed, it will attempt to install it during the composer install step. If you do, it will simply find the path to it. If you'd like to change this logic, you can read more below about setting your signMethod => 'datafetch', an API I have created for signing tiktok urls.
+```
 
 ## Installation
 
@@ -64,14 +66,17 @@ $scraper->user->details('username');
 
 ```
 $scraper->user->videos(123415125125);
+
+// Or use username, 10 is the count of videos to return.
+$scraper->user->videos('iratee', 10);
 ```
 
 ## Discover
 
 ```
-$scraper->general->discover('music');
-$scraper->general->discover('user');
-$scraper->general->discover('hashtag');
+$scraper->discover->get('music');
+$scraper->discover->get('user');
+$scraper->discover->get('hashtag');
 
 // Offset and count:
 
@@ -86,7 +91,20 @@ $scraper->general->discover('music', [
 
 ```
 // 25 being the number of items to return.
-$scraper->general->discover(25);
+$scraper->trending->videos(25);
+```
+
+## Hashtag Data
+
+```
+$scraper->hashtag->data('beatbox');
+```
+
+## Hashtag Videos
+
+```
+// 30 being the count of videos to return
+$scraper->hashtag->videos('beatbox', 30);
 ```
 
 ## Signing a URL
@@ -104,6 +122,32 @@ $scraper->signUrl('TIKTOK_URL_HERE');
 ## DataFetch API Key
 
 DataFetch API does rate limit your requests at a max of 100 requests per 15 minutes. This can be avoided by obtaining an API key, which will then give you access to unlimited requests. You can obtain access by contacting me at `matt [at] grubb [dot] com`.
+
+# Errors
+
+If anything error happens throughout the scraper, it will set the error at the following:
+
+```
+$scraper->error
+```
+
+Which will return the following structure:
+
+```
+[
+  'error' => true,
+  'message' => 'Detailed error message here.'
+]
+```
+
+Also, the method you called will also return `false`.
+
+---------------
+
+If there was no error, two things you will notice:
+
+1. `$scraper->error` is set to `false`
+2. The method you called will not return `false`
 
 # Legal
 

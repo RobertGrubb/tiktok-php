@@ -41,8 +41,13 @@ class Endpoints {
   public $endpoints = [
 
     'web' => [
+
+      // Users
       'user-details' => 'https://www.tiktok.com/@{username}',
-      'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}'
+      'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}',
+
+      // Hashtags
+      'hashtag-data' => 'https://www.tiktok.com/tag/{hashtag}?pageType=6'
     ],
 
     'm' => [
@@ -115,6 +120,21 @@ class Endpoints {
           'count'        => 28,
           'useRecommend' => 'false',
           'language'     => 'en'
+        ]
+      ],
+
+      'hashtag-videos'   => [
+        'url' => '',
+        'vars' => [
+          'secUid'    => '',
+          'id'        => '',
+          'type'      => 3,
+          'count'     => 30,
+          'minCursor' => 0,
+          'maxCursor' => 0,
+          'shareUid'  => '',
+          'language'  => 'en',
+          'verifyFp'  => ''
         ]
       ]
     ]
