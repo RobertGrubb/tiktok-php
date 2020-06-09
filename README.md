@@ -56,6 +56,13 @@ $scraper = new Scraper([
 ]
 ```
 
+## Search for a user
+
+```
+// 30 being the number of results
+$scraper->user->search('username', 30);
+```
+
 ## User data
 
 ```
