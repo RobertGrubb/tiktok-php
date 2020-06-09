@@ -18,7 +18,7 @@ class Hashtag
     if (!isset($NEXT_DATA['props']['pageProps']['challengeData'])) throw new Exception('No __NEXT_DATA__[props][pageProps][challengeData] found.');
 
     // Set videoData
-    $hashtagData = $NEXT_DATA['props']['pageProps']['challengeData'];
+    $hashtagData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['challengeData']));
 
     // set all keys from userData to the instance.
     foreach ($hashtagData as $key => $val) $instance->{$key} = $val;

@@ -18,7 +18,7 @@ class Video
     if (!isset($NEXT_DATA['props']['pageProps']['videoData'])) throw new Exception('No __NEXT_DATA__[props][pageProps][videoData] found.');
 
     // Set videoData
-    $videoData = $NEXT_DATA['props']['pageProps']['videoData'];
+    $videoData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['videoData']));
 
     // set all keys from userData to the instance.
     foreach ($videoData as $key => $val) $instance->{$key} = $val;
