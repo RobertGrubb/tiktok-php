@@ -18,7 +18,7 @@ class User
     if (!isset($NEXT_DATA['props']['pageProps']['userData'])) return $this->error('No __NEXT_DATA__[props][pageProps][userData]');
 
     // Set Userdata
-    $userData = $NEXT_DATA['props']['pageProps']['userData'];
+    $userData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['userData']));
 
     // set all keys from userData to the instance.
     foreach ($userData as $key => $val) $instance->{$key} = $val;

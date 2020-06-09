@@ -87,4 +87,22 @@ class UserRequests
     $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData);
     return $videoData;
   }
+
+  public function downloadVideo ($username = null, $id = null, $path = './') {
+
+    // Validate arguments
+    if (!$this->instance->valid($username, $id)) return false;
+
+    // Get the video data
+    $videoData = $this->video($username, $id);
+
+    // If no video data is returned, return false.
+    if (!$videoData) return false;
+
+    // Get the URL
+    $url = $videoData->itemInfos->video->urls[0];
+
+    // Download the video
+    return \TikTok\Core\Libraries\Downloader::video($url, $path);
+  }
 }
