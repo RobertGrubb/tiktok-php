@@ -11,7 +11,7 @@ use TikTok\Core\Exceptions\TikTokException;
 class DiscoverRequests
 {
 
-  // setError function from parent.
+  // Parent instance
   private $instance = null;
 
   /**
@@ -27,6 +27,10 @@ class DiscoverRequests
   public function get ($type = 'user', $vars = []) {
     $endpoint = $this->instance->endpoints->get('m.discover-' . $type, $vars);
     $discover = $this->instance->request->call($endpoint)->response();
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($discover->error)) return $this->instance->setError($discover->message);
+
     return $discover;
   }
 }

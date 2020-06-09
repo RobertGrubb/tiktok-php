@@ -90,7 +90,9 @@ class Scraper
   /**
    * Gives ability to simply sign a url.
    */
-  public function signUrl ($url) {
+  public function signUrl ($url = null) {
+    if (is_null($url)) return false;
+
     $userAgent = isset($this->config->userAgent) ? $this->config->userAgent : $this->endpoints->defaultUserAgent;
     $signature = [];
 
@@ -155,7 +157,34 @@ class Scraper
 
   // Set an error
   public function setError ($error) {
-    $this->error = $error;
+    $this->error = [
+      'error' => true,
+      'message' => $error
+    ];
+
+    // Return false so method that is called from can return false.
+    return false;
+  }
+
+  // Validates arguments passed
+  public function valid () {
+    $params = func_get_args();
+    $valid = true;
+
+    foreach ($params as $key => $param) {
+      if (is_null($param) || empty($param)) {
+
+        // Set error
+        $this->error = [
+          'error' => true,
+          'message' => 'Missing required arguments(s)'
+        ];
+
+        $valid = false;
+      }
+    }
+
+    return $valid;
   }
 
 }

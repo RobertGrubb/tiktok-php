@@ -21,7 +21,11 @@ try {
    * 2nd param: Array of params (count, offset)
    */
 
-  $data = $scraper->discover->get('hashtag', [ 'count' => 1 ]);
+  $data = $scraper->discover->get('asdfasdf', [ 'count' => 1 ]);
+
+  // Check for an error here.
+  if ($scraper->error) print_r($scraper->error);
+
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

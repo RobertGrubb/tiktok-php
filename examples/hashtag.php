@@ -15,6 +15,10 @@ $scraper = new Scraper();
 
 try {
   $data = $scraper->hashtag->data('beatbox');
+
+  // Check for an error here.
+  if ($scraper->error) print_r($scraper->error);
+
   print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;

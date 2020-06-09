@@ -11,7 +11,7 @@ use TikTok\Core\Exceptions\TikTokException;
 class TrendingRequests
 {
 
-  // setError function from parent.
+  // Parent instance holder
   private $instance = null;
 
   /**
@@ -27,6 +27,10 @@ class TrendingRequests
   public function videos ($count = 25) {
     $endpoint = $this->instance->endpoints->get('m.trending', [ 'count' => $count ]);
     $trending = $this->instance->request->call($endpoint)->response();
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($trending->error)) return $this->instance->setError($trending->message);
+
     return $trending;
   }
 }

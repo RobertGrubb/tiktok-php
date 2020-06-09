@@ -26,9 +26,16 @@ class HashtagRequests
    * @param string $hashtag
    */
   public function data ($hashtag = null) {
+
+    // Validate arguments
+    if (!$this->instance->valid($hashtag)) return false;
+
     $endpoint = $this->instance->endpoints->get('web.hashtag-data', [ 'hashtag' => $hashtag ]);
     $nextData = $this->instance->request->call($endpoint)->extract();
-    if (isset($nextData->error)) return $nextData;
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($nextData->error)) return $this->instance->setError($nextData->message);
+
     $hashtagData = (new \TikTok\Core\Models\Hashtag())->fromNextData($nextData);
     return $hashtagData;
   }
@@ -40,10 +47,14 @@ class HashtagRequests
    */
   public function videos ($hashtag = null, $count = 30) {
 
+    // Validate arguments
+    if (!$this->instance->valid($hashtag)) return false;
+
     // Get hashtag data for the challengeId
     $hashtagData = $this->data($hashtag);
+
+    // If hashtagData returned false, quit here.
     if (!$hashtagData) return false;
-    if (isset($hashtagData->error)) return $hashtagData;
 
     // Get the videos by challengeId
     $endpoint = $this->instance->endpoints->get('m.trending', [
@@ -53,6 +64,11 @@ class HashtagRequests
 
     // Retrieve the videos.
     $videos = $this->instance->request->call($endpoint)->response();
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($videos->error)) return $this->instance->setError($videos->message);
+
+    // Return the videos response
     return $videos;
   }
 

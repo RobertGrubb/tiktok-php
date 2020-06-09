@@ -118,6 +118,32 @@ $scraper->signUrl('TIKTOK_URL_HERE');
 
 DataFetch API does rate limit your requests at a max of 100 requests per 15 minutes. This can be avoided by obtaining an API key, which will then give you access to unlimited requests. You can obtain access by contacting me at `matt [at] grubb [dot] com`.
 
+# Errors
+
+If anything error happens throughout the scraper, it will set the error at the following:
+
+```
+$scraper->error
+```
+
+Which will return the following structure:
+
+```
+[
+  'error' => true,
+  'message' => 'Detailed error message here.'
+]
+```
+
+Also, the method you called will also return `false`.
+
+---------------
+
+If there was no error, two things you will notice:
+
+1. `$scraper->error` is set to `false`
+2. The method you called will not return `false`
+
 # Legal
 
 This repo and it's contents are in no way affiliated with, authorized, maintained, sponsored or endorsed by TikTok or any of its affiliates or subsidiaries. This is an independent and unofficial package. Use at your own risk.
