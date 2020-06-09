@@ -66,6 +66,9 @@ $scraper->user->details('username');
 
 ```
 $scraper->user->videos(123415125125);
+
+// Or use username, 10 is the count of videos to return.
+$scraper->user->videos('iratee', 10);
 ```
 
 ## Discover
