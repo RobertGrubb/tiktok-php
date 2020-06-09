@@ -121,6 +121,21 @@ class Endpoints {
           'useRecommend' => 'false',
           'language'     => 'en'
         ]
+      ],
+
+      'hashtag-videos'   => [
+        'url' => '',
+        'vars' => [
+          'secUid'    => '',
+          'id'        => '',
+          'type'      => 3,
+          'count'     => 30,
+          'minCursor' => 0,
+          'maxCursor' => 0,
+          'shareUid'  => '',
+          'language'  => 'en',
+          'verifyFp'  => ''
+        ]
       ]
     ]
   ];
