@@ -136,7 +136,32 @@ class Endpoints {
           'language'  => 'en',
           'verifyFp'  => ''
         ]
-      ]
+      ],
+
+      'music-data' => [
+        'url'  => 'https://m.tiktok.com/api/music/detail/?',
+        'vars' => [
+          'musicId' => '',
+          'language' => 'en'
+        ]
+      ],
+
+      'music-videos' => [
+        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'vars' => [
+          'secUid'      => '',
+          'id'          => '',
+          'type'        => 1,
+          'count'       => 25,
+          'minCursor'   => 0,
+          'maxCursor'   => 0,
+          'language'    => 'en',
+          'sourceType'  => '11',
+          'verifyFp'    => '',
+          'region'      => 'US',
+          'appId'       => '1233'
+        ]
+      ],
     ]
   ];
 
@@ -162,7 +187,7 @@ class Endpoints {
    *
    * For 'm' endpoints, it must be signed.
    */
-  public function get($endpoint, $vars = []) {
+  public function get($endpoint, $vars = [], $customUserAgent = false) {
     $endpointParts = explode('.', $endpoint);
     $type = $endpointParts[0];
     $point = $endpointParts[1];
@@ -187,7 +212,7 @@ class Endpoints {
       $endpointVars = $this->endpoints[$type][$point]['vars'];
 
       // Gotta do some signing here.
-      return $this->buildUrl($url, array_merge($endpointVars, $vars));
+      return $this->buildUrl($url, array_merge($endpointVars, $vars), $customUserAgent);
     }
   }
 
@@ -196,7 +221,7 @@ class Endpoints {
    * Anything that reaches https://m.tiktok.com needs to be
    * signed.
    */
-  private function buildUrl($url, $vars) {
+  private function buildUrl($url, $vars, $customUserAgent = false) {
 
     // Build the URL and query string
     $url = $url . http_build_query($vars) . '&verifyFp=';
@@ -208,7 +233,7 @@ class Endpoints {
       // Sign the url with DataFetch
       $signature = \TikTok\Core\Libraries\DataFetch::sign(
         $url,
-        $this->headers['m']['User-Agent'],
+        ($customUserAgent ? $customUserAgent : $this->headers['m']['User-Agent']),
         $this->config->datafetchApiKey
       );
     } else {
@@ -216,7 +241,7 @@ class Endpoints {
       // Sign the url with node
       $signature = \TikTok\Core\Libraries\Signer::execute(
         $url,
-        $this->headers['m']['User-Agent']
+        ($customUserAgent ? $customUserAgent : $this->headers['m']['User-Agent'])
       );
     }
 

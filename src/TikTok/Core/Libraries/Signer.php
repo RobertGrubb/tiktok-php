@@ -17,6 +17,8 @@ class Signer {
    * url signature.
    */
   public static function execute($url, $userAgent) {
+    echo $userAgent;
+
     // Set node path
     $node = VENDOR_BIN_PATH . 'node';
 
