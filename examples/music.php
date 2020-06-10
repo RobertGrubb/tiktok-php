@@ -15,8 +15,7 @@ $scraper = new Scraper();
 
 try {
   /**
-   * THIS DOES NOT WORK RIGHT NOW
-   * @TODO: FIX THIS
+   * Works now!
    */
   $data = $scraper->music->data(6821468236035541766);
 
