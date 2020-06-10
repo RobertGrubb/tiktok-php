@@ -47,7 +47,10 @@ class Endpoints {
       'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}',
 
       // Hashtags
-      'hashtag-data' => 'https://www.tiktok.com/tag/{hashtag}?pageType=6'
+      'hashtag-data' => 'https://www.tiktok.com/tag/{hashtag}?pageType=6',
+
+      // Music
+      'music-data'   => 'https://www.tiktok.com/music/{slug}'
     ],
 
     'm' => [
@@ -135,14 +138,6 @@ class Endpoints {
           'shareUid'  => '',
           'language'  => 'en',
           'verifyFp'  => ''
-        ]
-      ],
-
-      'music-data' => [
-        'url'  => 'https://m.tiktok.com/api/music/detail/?',
-        'vars' => [
-          'musicId' => '',
-          'language' => 'en'
         ]
       ],
 

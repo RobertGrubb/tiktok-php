@@ -119,6 +119,31 @@ $scraper->general->discover('music', [
 $scraper->trending->videos(25);
 ```
 
+## Music Data
+
+```
+// Gets data for music by id
+$scraper->music->data(12312512512);
+```
+
+## Music Videos
+
+```
+// Gets videos for music (25 being the count)
+$scraper->music->data(12124124124, 25)
+```
+
+## Download Music by ID
+
+```
+/**
+ * 1st Param: music_id
+ * 2nd Param: path (optional)
+ * 3rd Param: custom name (optional)
+ */
+$scraper->music->download(6821468236035541766, './', 'custom-name');
+```
+
 ## Hashtag Data
 
 ```

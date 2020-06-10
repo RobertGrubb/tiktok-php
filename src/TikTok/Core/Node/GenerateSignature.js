@@ -18,14 +18,6 @@ function sign(url) {
         })('var function ().length++return ));break;case ;else{'.split('')),
     )();
 
-    byted_acrawler.init({
-      aid: 1988,
-      dfp: false,
-      boe: false,
-      intercept: true,
-      enablePathList: ["/api/user/detail","/api/music/detail","/api/item/detail","/api/challenge/detail/","/share/item/list","/api/item_list/","/api/comment/list/","/api/comment/list/reply/","/api/discover/user/","/api/commit/follow/user/","/api/recommend/user/","/api/impression/write/","/share/item/explore/list","/api/commit/item/digg/","/node/share/*","/discover/render/*"],
-    })
-
     return byted_acrawler.sign({ url });
 }
 

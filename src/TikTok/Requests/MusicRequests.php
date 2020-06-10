@@ -22,28 +22,57 @@ class MusicRequests
   }
 
   /**
-   * @TODO: Finish this method.
-   *
-   * Right now it seems the URL is not being signed correctly.
-   * Need to look into why this is.
+   * Will query a list of videos for the music,
+   * then it will take the first result, grab the music data,
+   * format the url slug, then access the /music/slug page and
+   * grab the data from NEXT_DATA.
    */
   public function data ($id) {
 
-    // Set a custom user agent
-    $customUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1';
+    // Get the video list
+    $videoList = $this->videos($id, 1);
 
-    // Get the endpoint with the custom user agent.
-    $endpoint = $this->instance->endpoints->get('m.music-data', [ 'musicId' => $id ], $customUserAgent);
+    // If nothing is returned
+    if (!$videoList) return false;
 
-    // Get the music data, set the user agent to the custom one.
-    $musicData = $this->instance->request->call($endpoint, [
-      'User-Agent' => $customUserAgent
-    ])->response();
+    // Validations for the video list
+    if (!isset($videoList->items)) return false;
+    if (!isset($videoList->items[0])) return false;
+
+    // Get the music data
+    $musicDataFromVideo = $videoList->items[0]->music;
+
+    // Get the music slug
+    $musicUrlSlug = $this->formatMusicUrl($musicDataFromVideo);
+
+    // Build the endpoint and extract the nextData
+    $endpoint = $this->instance->endpoints->get('web.music-data', [ 'slug' => $musicUrlSlug ]);
+    $nextData = $this->instance->request->call($endpoint)->extract();
 
     // If there is an error, set the error in the parent, return false.
-    if (isset($musicData->error)) return $this->instance->setError($musicData->message);
+    if (isset($nextData->error)) return $this->instance->setError($nextData->message);
 
+    // Run next_data through the model and return the musicData
+    $musicData = (new \TikTok\Core\Models\Music())->fromNextData($nextData);
     return $musicData;
+  }
+
+  public function download ($id, $path = './', $customName = false) {
+
+    // Validate arguments
+    if (!$this->instance->valid($id)) return false;
+
+    // Get the video data
+    $musicData = $this->data($id);
+
+    // If no video data is returned, return false.
+    if (!$musicData) return false;
+
+    // Get the URL
+    $uri = $musicData->playUrl->Uri;
+
+    // Download the music mp3
+    return \TikTok\Core\Libraries\Downloader::music($uri, $path, $customName);
   }
 
   /**
@@ -57,5 +86,11 @@ class MusicRequests
     if (isset($musicVideos->error)) return $this->instance->setError($musicVideos->message);
 
     return $musicVideos;
+  }
+
+  private function formatMusicUrl ($music) {
+    $title = str_replace(' ', '-', $music->title);
+    $slug = $title . '-' . $music->id;
+    return $slug;
   }
 }
