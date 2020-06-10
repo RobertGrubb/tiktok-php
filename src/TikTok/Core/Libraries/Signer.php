@@ -17,6 +17,7 @@ class Signer {
    * url signature.
    */
   public static function execute($url, $userAgent) {
+
     // Set node path
     $node = VENDOR_BIN_PATH . 'node';
 
@@ -38,7 +39,8 @@ class Signer {
     // Return the url and signature
     return [
       'url' => "$url&_signature=" . $output[0],
-      'signature' => $output[0]
+      'signature' => $output[0],
+      'userAgent' => $userAgent
     ];
   }
 }

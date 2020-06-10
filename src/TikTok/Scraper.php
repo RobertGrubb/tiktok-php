@@ -84,6 +84,11 @@ class Scraper
      * Instantiate the hashtag requests class
      */
     $this->hashtag = new \TikTok\Requests\HashtagRequests($this);
+
+    /**
+     * Instantiate the music requests class
+     */
+    $this->music = new \TikTok\Requests\MusicRequests($this);
   }
 
 
