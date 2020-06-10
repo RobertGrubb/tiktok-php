@@ -130,7 +130,7 @@ $scraper->music->data(12312512512);
 
 ```
 // Gets videos for music (25 being the count)
-$scraper->music->data(12124124124, 25)
+$scraper->music->videos(12124124124, 25)
 ```
 
 ## Download Music by ID
