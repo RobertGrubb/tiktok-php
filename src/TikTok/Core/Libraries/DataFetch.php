@@ -11,7 +11,7 @@ class DataFetch {
       // Initiate CURL
       $ch = curl_init();
 
-      $link = 'http://tiktok.datafet.ch/sign';
+      $link = 'https://tiktok.datafet.ch/sign';
 
       if (!is_null($key)) $link .= '?key=' . $key;
 
