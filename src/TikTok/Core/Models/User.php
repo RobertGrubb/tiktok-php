@@ -15,7 +15,9 @@ class User
     if (count($NEXT_DATA) === 0) return $this->error('__NEXT_DATA__');
     if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');
     if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('No __NEXT_DATA__[props][pageProps]');
-    if (!isset($NEXT_DATA['props']['pageProps']['userData'])) return $this->error('No __NEXT_DATA__[props][pageProps][userData]');
+
+    // If this property is missing, the user does not exist.
+    if (!isset($NEXT_DATA['props']['pageProps']['userData'])) return $this->error('User does not exist', true);
 
     // Set Userdata
     $userData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['userData']));
@@ -30,10 +32,10 @@ class User
    * Returns an error instead of throwing an
    * exception.
    */
-  public function error ($field) {
+  public function error ($field, $customMessage = false) {
     return (object) [
       'error' => true,
-      'message' => 'Object: ' . $field . ' not found'
+      'message' => ($customMessage ? $field : 'Object: ' . $field . ' not found')
     ];
   }
 }
