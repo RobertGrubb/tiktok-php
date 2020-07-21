@@ -15,7 +15,7 @@ $scraper = new Scraper();
 
 
 try {
-  $data = $scraper->user->videos('iratee', 2);
+  $data = $scraper->user->videos('iratee', 10);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

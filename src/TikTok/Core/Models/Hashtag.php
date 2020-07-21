@@ -12,10 +12,10 @@ class Hashtag
     $instance = new self();
 
     // Validate the response data
-    if (count($NEXT_DATA) === 0)  throw new Exception('No __NEXT_DATA__ found.');
-    if (!isset($NEXT_DATA['props'])) throw new Exception('No __NEXT_DATA__[props] found.');
-    if (!isset($NEXT_DATA['props']['pageProps'])) throw new Exception('No __NEXT_DATA__[props][pageProps] found.');
-    if (!isset($NEXT_DATA['props']['pageProps']['challengeData'])) throw new Exception('No __NEXT_DATA__[props][pageProps][challengeData] found.');
+    if (count($NEXT_DATA) === 0)  return $this->error('__NEXT_DATA__');
+    if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');
+    if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('__NEXT_DATA__[props][pageProps]');
+    if (!isset($NEXT_DATA['props']['pageProps']['challengeData'])) return $this->error('__NEXT_DATA__[props][pageProps][challengeData]');
 
     // Set videoData
     $hashtagData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['challengeData']));
