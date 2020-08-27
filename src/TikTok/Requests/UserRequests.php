@@ -66,7 +66,7 @@ class UserRequests
   /**
    * Gets videos for a specific user
    */
-  public function videos ($user = null, $count = 30) {
+  public function videos ($user = null, $count = 30, $vars = []) {
     // Set id to user by default.
     $id = $user;
 
@@ -80,7 +80,7 @@ class UserRequests
       $id = $userData->userId;
     }
 
-    $endpoint = $this->instance->endpoints->get('m.user-videos', [ 'id' => $id, 'count' => $count ]);
+    $endpoint = $this->instance->endpoints->get('m.user-videos', array_merge($vars, [ 'id' => $id, 'count' => $count ]));
     $videos = $this->instance->request->call($endpoint)->response();
 
     // If there is an error, set the error in the parent, return false.
