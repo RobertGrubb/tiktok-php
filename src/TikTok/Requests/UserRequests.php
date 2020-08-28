@@ -63,6 +63,48 @@ class UserRequests
     return $results;
   }
 
+  public function allVideos ($user = null) {
+
+    // Set id to user by default.
+    $id = $user;
+
+    // Validate arguments
+    if (!$this->instance->valid($user)) return false;
+
+    // If passed is a username
+    if (!preg_match("/^\d+$/", $user)) {
+      $userData = $this->details($user);
+      if (!$userData) return false;
+      $id = $userData->userId;
+    }
+
+    // Get first set of videos.
+    $data = $this->videos($user, 30);
+
+    // If no data is returned, return false.
+    if (!$data) return false;
+
+    // Store videos in an array.
+    $videos = [];
+
+    /**
+     * Do a while loop, and while hasMore is true,
+     * we will continue calling the videos with maxCursor
+     */
+    while ($data->hasMore === true) {
+
+      // Add video to the videos array.
+      foreach ($data->items as $vid) $videos[] = $vid;
+
+      // Call it with a new maxCursor
+      $data = $this->videos($user, 10, [
+        'maxCursor' => $data->maxCursor
+      ]);
+    }
+
+    return $videos;
+  }
+
   /**
    * Gets videos for a specific user
    */
