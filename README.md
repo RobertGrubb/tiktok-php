@@ -78,6 +78,15 @@ $scraper->user->videos(123415125125);
 $scraper->user->videos('iratee', 10);
 ```
 
+## All User Videos
+
+```
+$scraper->user->allVideos(123415125125);
+
+// Or use username
+$scraper->user->allVideos('iratee');
+```
+
 ## Specific User Video
 
 ```
