@@ -7,7 +7,7 @@ class Downloader {
   /**
    * Downloads the music mp3
    */
-  public static function music($uri, $destination = './', $customName = false) {
+  public static function music ($uri, $destination = './', $customName = false) {
     $fileName = ($customName ? $customName : time()) . '.mp3';
     $destination = (substr($destination, -1) === '/' ? $destination : $destination . '/');
     $filePath = $destination . $fileName;
@@ -32,7 +32,7 @@ class Downloader {
   /**
    * Downloads the video
    */
-  public static function video($url, $destination = './') {
+  public static function video ($url, $destination = './') {
     $fileName = time() . '.mp4';
     $destination = (substr($destination, -1) === '/' ? $destination : $destination . '/');
     $filePath = $destination . $fileName;

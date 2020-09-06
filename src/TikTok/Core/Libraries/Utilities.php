@@ -10,7 +10,7 @@ class Utilities {
    * Finds the composer vendor bin path
    * so node can be called.
    */
-  public static function findBin() {
+  public static function findBin () {
 
     // The dev location
     if (is_dir(__DIR__ . '/../../../../vendor/bin/'))

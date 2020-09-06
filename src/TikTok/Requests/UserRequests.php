@@ -131,7 +131,7 @@ class UserRequests
     return $videos;
   }
 
-  public function video($username = null, $id = null) {
+  public function video ($username = null, $id = null) {
 
     // Validate arguments
     if (!$this->instance->valid($username, $id)) return false;

@@ -182,7 +182,7 @@ class Endpoints {
    *
    * For 'm' endpoints, it must be signed.
    */
-  public function get($endpoint, $vars = [], $customUserAgent = false) {
+  public function get ($endpoint, $vars = [], $customUserAgent = false) {
     $endpointParts = explode('.', $endpoint);
     $type = $endpointParts[0];
     $point = $endpointParts[1];
@@ -216,7 +216,7 @@ class Endpoints {
    * Anything that reaches https://m.tiktok.com needs to be
    * signed.
    */
-  private function buildUrl($url, $vars, $customUserAgent = false) {
+  private function buildUrl ($url, $vars, $customUserAgent = false) {
 
     // Build the URL and query string
     $url = $url . http_build_query($vars) . '&verifyFp=';

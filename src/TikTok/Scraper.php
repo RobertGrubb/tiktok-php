@@ -53,7 +53,7 @@ class Scraper
   /**
    * Initializes required classes for the scraper
    */
-  private function _initialize() {
+  private function _initialize () {
 
     /**
      * Instantiate the request instance.
