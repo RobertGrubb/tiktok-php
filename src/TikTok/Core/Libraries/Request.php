@@ -188,7 +188,7 @@ class Request {
   }
 
   private function endpointType ($endpoint) {
-    if (strpos($endpoint, 'www.') !== false) return 'web';
+    if (strpos($endpoint, 'www.') !== false && strpos($endpoint, 'api/') === false) return 'web';
     return 'm';
   }
 

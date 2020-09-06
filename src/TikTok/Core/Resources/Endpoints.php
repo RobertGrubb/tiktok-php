@@ -55,7 +55,7 @@ class Endpoints {
 
     'm' => [
       'user-videos'  => [
-        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'url'  => 'https://www.tiktok.com/api/item_list/?',
         'vars' => [
           'count'       => 30,
           'id'          => '', // required to be passed

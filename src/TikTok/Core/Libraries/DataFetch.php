@@ -15,8 +15,6 @@ class DataFetch {
 
       if (!is_null($key)) $link .= '?key=' . $key;
 
-      echo $link . PHP_EOL . PHP_EOL;
-
       $vars = [
         'url' => $url,
         'userAgent' => $userAgent
