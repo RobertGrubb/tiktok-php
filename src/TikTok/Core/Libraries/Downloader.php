@@ -55,7 +55,7 @@ class Downloader {
   public static function getUrlWithoutWatermark ($url) {
     $videoKey = self::getKey($url);
     if ($videoKey === false) return false;
-    $url = "https://api2.musical.ly/aweme/v1/playwm/?video_id=$videoKey";
+    $url = "https://api2-16-h2.musical.ly/aweme/v1/play/?video_id=$videoKey&vr_type=0&is_play_url=1&source=PackSourceEnum_PUBLISH&media_type=4";
     return $url;
   }
 
