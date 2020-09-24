@@ -89,6 +89,12 @@ class Scraper
      * Instantiate the music requests class
      */
     $this->music = new \TikTok\Requests\MusicRequests($this);
+
+    /**
+     * @Experimental
+     * Instantiate the session requests class
+     */
+    $this->session = new \TikTok\Requests\SessionRequests($this);
   }
 
 

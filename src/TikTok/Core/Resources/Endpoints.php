@@ -26,7 +26,7 @@ class Endpoints {
     ],
     'm'  => [
       'Accept'          => 'application/json, text/plain, */*',
-      'User-Agent'      => '',
+      'User-Agent'      => 'okhttp',
       'Origin'          => 'https://www.tiktok.com',
       'Referer'         => 'https://www.tiktok.com/',
       'Accept-Language' => 'en-US,en;q=0.9',
@@ -41,6 +41,9 @@ class Endpoints {
   public $endpoints = [
 
     'web' => [
+      // @EXPERIMENTAL Session stuff
+      'session-id'   => 'https://sgali-mcs.byteoversea.com/v1/user/ssid',
+      'web-id'       => 'https://sgali-mcs.byteoversea.com/v1/user/webid',
 
       // Users
       'user-details' => 'https://www.tiktok.com/@{username}',
@@ -60,7 +63,7 @@ class Endpoints {
           'count'       => 30,
           'id'          => '', // required to be passed
           'type'        => 1,
-          'secUid'      => '',
+          'secUid'      => 'asdg2gewbawbasd',
           'maxCursor'   => 0,
           'minCursor'   => 0,
           'sourceType'  => '8',
