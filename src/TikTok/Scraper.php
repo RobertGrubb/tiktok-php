@@ -95,6 +95,12 @@ class Scraper
      * Instantiate the session requests class
      */
     $this->session = new \TikTok\Requests\SessionRequests($this);
+
+    /**
+     * @Experimental
+     * Captcha library
+     */
+    $this->captcha = new \TikTok\Core\Libraries\Captcha($this);
   }
 
 
