@@ -33,6 +33,17 @@ class Scraper
    */
   public $error = false;
 
+    /** @var Requests\UserRequests Collection of User related functions. */
+    public $user;
+    /** @var Requests\DiscoverRequests Collection of Discover related functions. */
+    public $discover;
+    /** @var Requests\TrendingRequests Collection of Trending related functions. */
+    public $trending;
+    /** @var Requests\HashtagRequests Collection of Hashtag related functions. */
+    public $hashtag;
+    /** @var Requests\MusicRequests Collection of Music related functions. */
+    public $music;
+
   /**
    * Class constructor
    */

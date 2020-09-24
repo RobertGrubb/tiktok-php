@@ -148,6 +148,25 @@ class UserRequests
     $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData);
     return $videoData;
   }
+  public function likedPosts($user = null, $count = 30, $vars = []) {
+
+      // Validate arguments
+      if (!$this->instance->valid($user)) return false;
+
+      if (!preg_match("/^\d+$/", $user)) {
+          $userData = $this->details($user);
+          if (!$userData) return false;
+          $id = $userData->userId;
+      }
+
+      $endpoint = $this->instance->endpoints->get('m.liked-posts', array_merge($vars, [ 'id' => $id, 'count' => $count ]));
+      $results = $this->instance->request->call($endpoint)->response();
+
+      // If there is an error, set the error in the parent, return false.
+      if (isset($results->error)) return $this->instance->setError($results->message);
+
+      return $results;
+    }
 
   public function downloadVideo ($username = null, $id = null, $watermark = true, $path = './') {
 

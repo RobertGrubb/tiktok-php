@@ -160,6 +160,22 @@ class Endpoints {
           'appId'       => '1233'
         ]
       ],
+      'liked-posts' => [
+        'url' => 'https://m.tiktok.com/api/item_list/?',
+        'vars' => [
+          'secUid' => '',
+          'id' => '',
+          'type' => 2,
+          'count' => 25,
+          'minCursor' => 0,
+          'maxCursor' => 0,
+          'language' => 'en',
+          'sourceType' => '9',
+          'verifyFp' => '',
+          'region' => 'US',
+          'appId' => '1233'
+        ]
+      ],
     ]
   ];
 
