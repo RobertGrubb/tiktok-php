@@ -16,7 +16,7 @@ class Signer {
    * Executes the node script that generates the
    * url signature.
    */
-  public static function execute($url, $userAgent) {
+  public static function execute ($url, $userAgent) {
 
     // Set node path
     $node = VENDOR_BIN_PATH . 'node';

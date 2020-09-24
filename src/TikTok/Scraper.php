@@ -53,7 +53,7 @@ class Scraper
   /**
    * Initializes required classes for the scraper
    */
-  private function _initialize() {
+  private function _initialize () {
 
     /**
      * Instantiate the request instance.
@@ -89,6 +89,12 @@ class Scraper
      * Instantiate the music requests class
      */
     $this->music = new \TikTok\Requests\MusicRequests($this);
+
+    /**
+     * @Experimental
+     * Instantiate the session requests class
+     */
+    $this->session = new \TikTok\Requests\SessionRequests($this);
   }
 
 

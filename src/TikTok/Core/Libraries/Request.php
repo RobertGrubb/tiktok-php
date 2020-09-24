@@ -37,6 +37,11 @@ class Request {
     $this->endpoints = $endpoints;
   }
 
+  public function setPostParams ($params = false) {
+    $this->postParams = $params;
+    return $this;
+  }
+
   public function call ($endpoint, $customHeaders = []) {
 
     // Grab headers that will be used based on endpoint
@@ -104,11 +109,15 @@ class Request {
     // Curl info
     $info = curl_getinfo($ch);
 
-    // print_r([
-    //   'info' => $info,
-    //   'headers' => $headers,
-    //   'endpoint' => $endpoint
-    // ]);
+    if (isset($this->config->verbose)) {
+      if ($this->config->verbose === true) {
+        print_r([
+          'info' => $info,
+          'headers' => $headers,
+          'endpoint' => $endpoint
+        ]);
+      }
+    }
 
     // Close CURL
     curl_close ($ch);
@@ -195,7 +204,7 @@ class Request {
   /**
    * Gets headers for the specific endpoint platform.
    */
-  private function getHeaders($endpoint) {
+  private function getHeaders ($endpoint) {
 
     return $this->formatHeaders(
       $this->endpoints->headers[$this->endpointType($endpoint)]
@@ -205,7 +214,7 @@ class Request {
   /**
    * Formats the headers for CURL
    */
-  private function formatHeaders($headers = array()) {
+  private function formatHeaders ($headers = array()) {
     $res = [];
     foreach ($headers as $key => $header) $res[] = $key . ': ' . $header;
     return $res;

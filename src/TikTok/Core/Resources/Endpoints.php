@@ -26,7 +26,7 @@ class Endpoints {
     ],
     'm'  => [
       'Accept'          => 'application/json, text/plain, */*',
-      'User-Agent'      => '',
+      'User-Agent'      => 'okhttp',
       'Origin'          => 'https://www.tiktok.com',
       'Referer'         => 'https://www.tiktok.com/',
       'Accept-Language' => 'en-US,en;q=0.9',
@@ -41,6 +41,9 @@ class Endpoints {
   public $endpoints = [
 
     'web' => [
+      // @EXPERIMENTAL Session stuff
+      'session-id'   => 'https://sgali-mcs.byteoversea.com/v1/user/ssid',
+      'web-id'       => 'https://sgali-mcs.byteoversea.com/v1/user/webid',
 
       // Users
       'user-details' => 'https://www.tiktok.com/@{username}',
@@ -60,7 +63,7 @@ class Endpoints {
           'count'       => 30,
           'id'          => '', // required to be passed
           'type'        => 1,
-          'secUid'      => '',
+          'secUid'      => 'asdg2gewbawbasd',
           'maxCursor'   => 0,
           'minCursor'   => 0,
           'sourceType'  => '8',
@@ -182,7 +185,7 @@ class Endpoints {
    *
    * For 'm' endpoints, it must be signed.
    */
-  public function get($endpoint, $vars = [], $customUserAgent = false) {
+  public function get ($endpoint, $vars = [], $customUserAgent = false) {
     $endpointParts = explode('.', $endpoint);
     $type = $endpointParts[0];
     $point = $endpointParts[1];
@@ -216,7 +219,7 @@ class Endpoints {
    * Anything that reaches https://m.tiktok.com needs to be
    * signed.
    */
-  private function buildUrl($url, $vars, $customUserAgent = false) {
+  private function buildUrl ($url, $vars, $customUserAgent = false) {
 
     // Build the URL and query string
     $url = $url . http_build_query($vars) . '&verifyFp=';
