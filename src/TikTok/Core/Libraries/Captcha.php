@@ -64,12 +64,16 @@ class Captcha {
 
   private $fp = '';
 
-  public function __construct ($fp = '') {
+  public function __construct () {
 
     // Set the tmp parameter with a timestamp * 10000
     $this->params['tmp'] = (time() * 1000) + 120;
+  }
 
+  public function setFp($fp) {
     $this->fp = $fp;
+
+    return $this;
   }
 
   public function get () {
@@ -101,11 +105,13 @@ class Captcha {
    */
   public function solve () {
 
+    if (!isset($this->captchaData['data'])) return false;
+
     // Setup the params to be passed to _call
     $params = array_merge($this->params, [
       'fp' => $this->fp,
-      'subtype' => $this->captchaData->data->mode,
-      'challenge_code' => $this->captchaData->data->challenge_code,
+      'subtype' => $this->captchaData['data']->mode,
+      'challenge_code' => $this->captchaData['data']->challenge_code,
     ]);
 
     // Set a timestamp
@@ -113,8 +119,8 @@ class Captcha {
 
     // Setup the vars object
     $vars = [
-      'id' => $this->captchaData->data->id,
-      'mode' => $this->captchaData->data->mode,
+      'id' => $this->captchaData['data']->id,
+      'mode' => $this->captchaData['data']->mode,
       'models' => [], // Todo: Get info
       'modified_img_width' => 336,
       'reply' => [] // Todo: Get info
@@ -131,8 +137,6 @@ class Captcha {
     if (!$url) return false;
 
     $url .= http_build_query($params);
-
-    echo $url;
 
     $ch = curl_init();
 

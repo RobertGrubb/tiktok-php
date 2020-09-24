@@ -13,6 +13,10 @@ use TikTok\Scraper;
 // Instantiate TikTok Scraper library
 $scraper = new Scraper();
 
-$res = $scraper->captcha->get('verify_2e1f76c77655b2f80b62d92c17a3a133');
+$res = $scraper
+  ->captcha
+  ->setFp('verify_2e1f76c77655b2f80b62d92c17a3a133')
+  ->get()
+  ->solve();
 
-print_r($scraper->captcha->captchaData);
+var_dump($res);
