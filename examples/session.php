@@ -14,4 +14,11 @@ use TikTok\Scraper;
 $scraper = new Scraper();
 
 
-$scraper->session->webid();
+
+
+$data = $scraper->user->videos('iratee', 10);
+
+// Check for an error here.
+if ($scraper->error) print_r($scraper->error);
+
+print_r($data);

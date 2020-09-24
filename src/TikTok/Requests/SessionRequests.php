@@ -15,6 +15,9 @@ class SessionRequests
   // Parent instance
   private $instance = null;
 
+  private $webId = '';
+  private $ssid  = '';
+
   /**
    * Class constructor
    */
@@ -25,8 +28,8 @@ class SessionRequests
   /**
    * @EXPERIMENTAL: Get SessionId
    */
-  public function ssid ($userUniqueId, $webId) {
-    if (!$this->instance->valid($userUniqueId, $webId)) return false;
+  public function ssid () {
+    if (!$this->webId) return false;
 
     $endpoint = $this->instance->endpoints->get('web.session-id');
 
@@ -35,13 +38,13 @@ class SessionRequests
       ->request
       ->setPostParams([
         'app_id'         => 1988,
-        'user_unique_id' => $userUniqueId,
-        'web_id'         => $webId
+        'user_unique_id' => $this->webId,
+        'web_id'         => $this->webId
       ])
       ->call($endpoint)
       ->response();
 
-    print_r($res);
+    return $res;
   }
 
   /**
@@ -55,12 +58,18 @@ class SessionRequests
       ->request
       ->setPostParams([
         'app_id'     => 1988,
+        'referer'    => '',
         'url'        => 'https://www.tiktok.com/',
-        'user_agent' => $this->instance->endpoints->defaultUserAgent
+        'user_agent' => $this->instance->endpoints->defaultUserAgent,
+        'user_unique_id' => ''
       ])
       ->call($endpoint)
       ->response();
 
-    print_r($res);
+    $this->webId = isset($res->web_id) ? $res->web_id : false;
+
+    $this->instance->request->webId = $this->webId;
+
+    return $this;
   }
 }
