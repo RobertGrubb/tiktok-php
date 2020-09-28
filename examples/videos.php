@@ -11,7 +11,7 @@ $config = require_once __DIR__ . '/env.php';
 use TikTok\Scraper;
 
 // Instantiate TikTok Scraper library
-$scraper = new Scraper();
+$scraper = new Scraper($config);
 
 
 try {

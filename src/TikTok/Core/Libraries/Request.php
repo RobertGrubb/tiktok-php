@@ -27,8 +27,6 @@ class Request {
 
   private $postParams = false;
 
-  public $webId = false;
-
   /**
    * Class construction
    */
@@ -48,8 +46,8 @@ class Request {
 
   public function call ($endpoint, $customHeaders = []) {
 
-    if ($this->webId) {
-      $customHeaders[] = 'Cookie: tt_webid=' . $this->webId . ';tt_webid_v2=' . $this->webId;
+    if (isset($this->config->cookie)) {
+      $customHeaders[] = 'Cookie: ' . $this->config->cookie;
     }
 
     // Grab headers that will be used based on endpoint
