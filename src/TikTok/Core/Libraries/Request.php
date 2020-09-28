@@ -25,6 +25,8 @@ class Request {
    */
   private $endpoints = false;
 
+  private $postParams = false;
+
   /**
    * Class construction
    */
@@ -43,6 +45,10 @@ class Request {
   }
 
   public function call ($endpoint, $customHeaders = []) {
+
+    if (isset($this->config->cookie)) {
+      $customHeaders[] = 'Cookie: ' . $this->config->cookie;
+    }
 
     // Grab headers that will be used based on endpoint
     $headers = $this->getHeaders($endpoint);
@@ -92,6 +98,13 @@ class Request {
           curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->config->proxy['auth']);
         }
       }
+    }
+
+    // If it is POST or PUT, set it up
+    if ($this->postParams !== false) {
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->postParams));
+      curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
     }
 
     // Set other headers

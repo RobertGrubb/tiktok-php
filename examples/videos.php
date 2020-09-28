@@ -6,14 +6,12 @@ require_once __DIR__ . '/../src/TikTok.php';
 /**
  * Get development config
  */
-// config = require_once __DIR__ . '/env.php';
+$config = require_once __DIR__ . '/env.php';
 
 use TikTok\Scraper;
 
 // Instantiate TikTok Scraper library
-$scraper = new Scraper([
-  'verbose' => true
-]);
+$scraper = new Scraper($config);
 
 
 try {
@@ -21,6 +19,9 @@ try {
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);
+
+
+  if (isset($data->detail)) echo $data->detail;
 
   print_r($data);
 } catch (Exception $e) {

@@ -5,7 +5,7 @@ namespace TikTok\Core\Resources;
 class Endpoints {
 
   // Set the default user agent if one is not given.
-  public $defaultUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36';
+  public $defaultUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36';
 
   /**
    * Store specific headers that need to be sent
@@ -58,74 +58,104 @@ class Endpoints {
 
     'm' => [
       'user-videos'  => [
-        'url'  => 'https://www.tiktok.com/api/item_list/?',
+        'url'  => 'https://m.tiktok.com/api/item_list/?',
         'vars' => [
-          'count'       => 30,
-          'id'          => '', // required to be passed
-          'type'        => 1,
-          'secUid'      => 'asdg2gewbawbasd',
-          'maxCursor'   => 0,
-          'minCursor'   => 0,
-          'sourceType'  => '8',
-          'appId'       => '1233',
-          'region'      => 'US',
-          'language'    => 'en'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'count'           => 30,
+          'id'              => '', // required to be passed
+          'type'            => 1,
+          'secUid'          => '',
+          'maxCursor'       => 0,
+          'minCursor'       => 0,
+          'sourceType'      => '8',
+          'appId'           => '1233',
+          'region'          => 'US',
+          'language'        => 'en'
         ]
       ],
 
       'trending'    => [
         'url'  => 'https://m.tiktok.com/api/item_list/?',
         'vars' => [
-          'secUid'      => '',
-          'id'          => 1,
-          'type'        => 5,
-          'count'       => 25,
-          'minCursor'   => 0,
-          'maxCursor'   => 0,
-          'language'    => 'en',
-          'sourceType'  => '12',
-          'verifyFp'    => '',
-          'region'      => 'US',
-          'appId'       => '1233'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'secUid'          => '',
+          'id'              => 1,
+          'type'            => 5,
+          'count'           => 25,
+          'minCursor'       => 0,
+          'maxCursor'       => 0,
+          'language'        => 'en',
+          'sourceType'      => '12',
+          'verifyFp'        => '',
+          'region'          => 'US',
+          'appId'           => '1233'
         ]
       ],
 
       'discover-user' => [
         'url' => 'https://m.tiktok.com/api/discover/user/?',
         'vars' => [
-          'discoverType' => 0,
-          'needItemList' => 'false',
-          'keyWord'      => '',
-          'offset'       => 0,
-          'count'        => 28,
-          'useRecommend' => 'false',
-          'language'     => 'en'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'discoverType'    => 0,
+          'needItemList'    => 'false',
+          'keyWord'         => '',
+          'offset'          => 0,
+          'count'           => 28,
+          'useRecommend'    => 'false',
+          'language'        => 'en'
         ]
       ],
 
       'discover-music' => [
         'url' => 'https://m.tiktok.com/api/discover/music/?',
         'vars' => [
-          'discoverType' => 0,
-          'needItemList' => 'false',
-          'keyWord'      => '',
-          'offset'       => 0,
-          'count'        => 28,
-          'useRecommend' => 'false',
-          'language'     => 'en'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'discoverType'    => 0,
+          'needItemList'    => 'false',
+          'keyWord'         => '',
+          'offset'          => 0,
+          'count'           => 28,
+          'useRecommend'    => 'false',
+          'language'        => 'en'
         ]
       ],
 
       'discover-hashtag' => [
         'url' => 'https://m.tiktok.com/api/discover/challenge/?',
         'vars' => [
-          'discoverType' => 0,
-          'needItemList' => 'false',
-          'keyWord'      => '',
-          'offset'       => 0,
-          'count'        => 28,
-          'useRecommend' => 'false',
-          'language'     => 'en'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'discoverType'    => 0,
+          'needItemList'    => 'false',
+          'keyWord'         => '',
+          'offset'          => 0,
+          'count'           => 28,
+          'useRecommend'    => 'false',
+          'language'        => 'en'
         ]
       ],
 
@@ -147,17 +177,23 @@ class Endpoints {
       'music-videos' => [
         'url'  => 'https://m.tiktok.com/api/item_list/?',
         'vars' => [
-          'secUid'      => '',
-          'id'          => '',
-          'type'        => 1,
-          'count'       => 25,
-          'minCursor'   => 0,
-          'maxCursor'   => 0,
-          'language'    => 'en',
-          'sourceType'  => '11',
-          'verifyFp'    => '',
-          'region'      => 'US',
-          'appId'       => '1233'
+          'aid'             => 1988,
+          'app_name'        => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer'         => '',
+          'cookie_enabled'  => true,
+          'did'             => '',
+          'secUid'          => '',
+          'id'              => '',
+          'type'            => 1,
+          'count'           => 25,
+          'minCursor'       => 0,
+          'maxCursor'       => 0,
+          'language'        => 'en',
+          'sourceType'      => '11',
+          'verifyFp'        => '',
+          'region'          => 'US',
+          'appId'           => '1233'
         ]
       ],
     ]
