@@ -77,6 +77,11 @@ class CookieJar {
     return false;
   }
 
+  private function delete () {
+    if ($this->isWritable()) file_put_contents($this->config->cookieFile, '');
+    return false;
+  }
+
   /**
    * Check if the cookie file exists
    * @return boolean

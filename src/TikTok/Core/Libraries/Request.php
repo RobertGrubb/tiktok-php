@@ -32,6 +32,12 @@ class Request {
   private $postParams = false;
 
   /**
+   * Whether cookies are being used or not.
+   * @var boolean
+   */
+  private $useCookies = true;
+
+  /**
    * Cookies from response
    * @var array
    */
@@ -56,6 +62,13 @@ class Request {
 
     // Set the cookiejar file.
     $this->cookieJar = new \TikTok\Core\Libraries\CookieJar($this->config);
+
+    // Are cookies disabled in the config?
+    if (isset($this->config->disableCookies)) {
+      if ($this->config->disableCookies === true) {
+        $this->useCookies = false;
+      }
+    }
   }
 
   public function setPostParams ($params = false) {
@@ -65,24 +78,13 @@ class Request {
 
   public function call ($endpoint, $customHeaders = []) {
 
-    if (!isset($this->config->disableCookies)) {
+    if ($this->useCookies) {
 
       // Get the saved cookies from cookie jar
       $savedCookies = $this->savedCookies();
 
       // If there are any saved cookies, set them as a header.
       if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
-
-    } else {
-
-      // If disable cookies is set, but is not true.
-      if ($this->config->disableCookies !== true) {
-        // Get the saved cookies from cookie jar
-        $savedCookies = $this->savedCookies();
-
-        // If there are any saved cookies, set them as a header.
-        if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
-      }
     }
 
     // Grab headers that will be used based on endpoint
@@ -182,6 +184,9 @@ class Request {
         'error' => true,
         'message' => 'Status code ' . $info['http_code'] . ' was returned'
       ];
+
+      // Delete existing cookies.
+      if ($this->useCookies) $this->cookieJar->delete();
 
       return $this;
     }
