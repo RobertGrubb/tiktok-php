@@ -53,7 +53,10 @@ class Endpoints {
       'hashtag-data' => 'https://www.tiktok.com/tag/{hashtag}?pageType=6',
 
       // Music
-      'music-data'   => 'https://www.tiktok.com/music/{slug}'
+      'music-data'   => 'https://www.tiktok.com/music/{slug}',
+
+      // Web
+      'home'   => 'https://www.tiktok.com/'
     ],
 
     'm' => [

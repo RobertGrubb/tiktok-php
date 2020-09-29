@@ -26,6 +26,16 @@ class SessionRequests
   }
 
   /**
+   * Call the homepage of TikTok to get the set-cookie
+   * headers so it can be saved to the cookie jar.
+   */
+  public function initialCall () {
+    echo "called";
+    $endpoint = $this->instance->endpoints->get('web.home');
+    $this->instance->request->call($endpoint)->saveCookies();
+  }
+
+  /**
    * @EXPERIMENTAL: Get SessionId
    */
   public function ssid () {
@@ -51,6 +61,8 @@ class SessionRequests
    * @EXPERIMENTAL: Get webid
    */
   public function webid () {
+    if ($this->instance->request->savedCookies()) return $this;
+
     $endpoint = $this->instance->endpoints->get('web.web-id');
 
     // Send a request to the api responsible for setting web id
@@ -64,11 +76,7 @@ class SessionRequests
         'user_unique_id' => ''
       ])
       ->call($endpoint)
-      ->response();
-
-    $this->webId = isset($res->web_id) ? $res->web_id : false;
-
-    $this->instance->request->webId = $this->webId;
+      ->saveCookies();
 
     return $this;
   }

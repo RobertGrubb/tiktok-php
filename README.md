@@ -1,10 +1,14 @@
 # TikTok Scraper in PHP
 
-`Status: Work in progress.`
-
 ```
 By default, this scraper will attempt to use NodeJS to sign the URL. If you do not have node installed, it will attempt to install it during the composer install step. If you do, it will simply find the path to it. If you'd like to change this logic, you can read more below about setting your signMethod => 'datafetch', an API I have created for signing tiktok urls.
 ```
+
+# `v1.8.0` Breaking Change
+
+In `v1.8.0`, the scraper now sets cookies by default, which means that you must provide writable permissions for a `cookies.json` file, and then set it in the configuration (see example config below).
+
+Need to disable cookies? Set `'disableCookies' => true` in the configuration. See example below.
 
 ## Installation
 
@@ -30,7 +34,13 @@ $scraper = new Scraper([
     'address' => '127.0.0.1:8080',
     'auth' => 'username:password'
   ],
-  'timeout' => 20
+  'timeout' => 20,
+
+  // Since v1.8.0 (Must set cookie file)
+  'cookieFile' => __DIR__ . '/cookies.json'
+
+  // If not using cookies:
+  'disableCookies' => true
 ]);
 ```
 
