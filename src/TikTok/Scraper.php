@@ -91,7 +91,6 @@ class Scraper
     $this->music = new \TikTok\Requests\MusicRequests($this);
 
     /**
-     * @Experimental
      * Instantiate the session requests class
      */
     $this->session = new \TikTok\Requests\SessionRequests($this);
@@ -101,6 +100,26 @@ class Scraper
      * Captcha library
      */
     $this->captcha = new \TikTok\Core\Libraries\Captcha($this);
+
+
+    /**
+     * Cookie Initialization
+     */
+    $useCookies = true;
+
+    // Are cookies disabled in the config?
+    if (isset($this->config->disableCookies)) {
+      if ($this->config->disableCookies === true) {
+        $useCookies = false;
+      }
+    }
+
+    // If using cookies, check for saved cookies. If not, get them.
+    if ($useCookies === true) {
+      if (!$this->request->savedCookies()) {
+        $this->session->initialCall();
+      }
+    }
   }
 
 
@@ -152,6 +171,7 @@ class Scraper
     $this->config->datafetchApiKey = null;
 
     if (!is_null($config)) {
+
       if (!is_array($config)) return false;
 
       foreach ($config as $key => $val) {
@@ -167,9 +187,6 @@ class Scraper
    */
   public function set ($var, $val) {
     $this->config->{$var} = $val;
-
-    // Re initialize
-    $this->_initialize();
   }
 
   // Set an error

@@ -25,7 +25,23 @@ class Request {
    */
   private $endpoints = false;
 
+  /**
+   * Post Parameters to be passed via CURL
+   * @var array
+   */
   private $postParams = false;
+
+  /**
+   * Cookies from response
+   * @var array
+   */
+  private $cookies = [];
+
+  /**
+   * CookieJar class
+   * @var Tiktok\Core\Libraries\CookieJar
+   */
+  public $cookieJar = null;
 
   /**
    * Class construction
@@ -37,6 +53,9 @@ class Request {
 
     // Set the endpoints instance
     $this->endpoints = $endpoints;
+
+    // Set the cookiejar file.
+    $this->cookieJar = new \TikTok\Core\Libraries\CookieJar($this->config);
   }
 
   public function setPostParams ($params = false) {
@@ -46,8 +65,24 @@ class Request {
 
   public function call ($endpoint, $customHeaders = []) {
 
-    if (isset($this->config->cookie)) {
-      $customHeaders[] = 'Cookie: ' . $this->config->cookie;
+    if (!isset($this->config->disableCookies)) {
+
+      // Get the saved cookies from cookie jar
+      $savedCookies = $this->savedCookies();
+
+      // If there are any saved cookies, set them as a header.
+      if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
+
+    } else {
+
+      // If disable cookies is set, but is not true.
+      if ($this->config->disableCookies !== true) {
+        // Get the saved cookies from cookie jar
+        $savedCookies = $this->savedCookies();
+
+        // If there are any saved cookies, set them as a header.
+        if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
+      }
     }
 
     // Grab headers that will be used based on endpoint
@@ -115,6 +150,7 @@ class Request {
 
     // Merge any custom headers with the fetched headers from Endpoints
     curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($headers, $customHeaders));
+    curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, 'getCookies') );
 
     // Get the response
     $response = curl_exec($ch);
@@ -129,6 +165,8 @@ class Request {
           'headers' => $headers,
           'endpoint' => $endpoint
         ]);
+
+        print_r($this->cookies);
       }
     }
 
@@ -182,10 +220,52 @@ class Request {
 	}
 
   /**
+   * Checks the cookie jar for a valid
+   * dataset, then formats the cookie string.
+   *
+   * @return string
+   */
+  public function savedCookies () {
+    $cookieString = '';
+    $cookieData = $this->cookieJar->contents();
+
+    // Validation
+    if (!$cookieData) return false;
+
+    // Iterate through each and add it to the string.
+    foreach ($cookieData as $c) {
+      $parts = explode(';', $c);
+      $cookieString .= $parts[0] . '; ';
+    }
+
+    return $cookieString;
+  }
+
+  private function getCookies ($ch, $headerLine) {
+    if (strpos($headerLine, 'set-cookie:') !== false)
+      $cookie = str_replace('set-cookie: ', '', $headerLine);
+    if (strpos($headerLine, 'Set-Cookie:') !== false)
+      $cookie = str_replace('Set-Cookie: ', '', $headerLine);
+
+    if (isset($cookie)) array_push($this->cookies, $cookie);
+
+    return strlen($headerLine);
+  }
+
+  /**
    * Simply returns the data variable.
    */
   public function response () {
     return $this->data;
+  }
+
+  /**
+   * Saves cookies from the last request.
+   * @return boolean
+   */
+  public function saveCookies () {
+    if ($this->cookieJar->write($this->cookies)) return true;
+    return false;
   }
 
   /**

@@ -1,3 +1,4 @@
 vendor
 env.php
 .DS_Store
+cookies.json
