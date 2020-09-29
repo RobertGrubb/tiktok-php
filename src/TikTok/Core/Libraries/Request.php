@@ -65,11 +65,25 @@ class Request {
 
   public function call ($endpoint, $customHeaders = []) {
 
-    // Get the saved cookies from cookie jar
-    $savedCookies = $this->savedCookies();
+    if (!isset($this->config->disableCookies)) {
 
-    // If there are any saved cookies, set them as a header.
-    if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
+      // Get the saved cookies from cookie jar
+      $savedCookies = $this->savedCookies();
+
+      // If there are any saved cookies, set them as a header.
+      if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
+
+    } else {
+
+      // If disable cookies is set, but is not true.
+      if ($this->config->disableCookies !== true) {
+        // Get the saved cookies from cookie jar
+        $savedCookies = $this->savedCookies();
+
+        // If there are any saved cookies, set them as a header.
+        if ($savedCookies) $customHeaders[] = 'Cookie: ' . rtrim($savedCookies);
+      }
+    }
 
     // Grab headers that will be used based on endpoint
     $headers = $this->getHeaders($endpoint);

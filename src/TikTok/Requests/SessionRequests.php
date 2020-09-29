@@ -30,7 +30,6 @@ class SessionRequests
    * headers so it can be saved to the cookie jar.
    */
   public function initialCall () {
-    echo "called";
     $endpoint = $this->instance->endpoints->get('web.home');
     $this->instance->request->call($endpoint)->saveCookies();
   }
