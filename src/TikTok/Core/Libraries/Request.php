@@ -221,6 +221,16 @@ class Request {
 
     // Set the class data variable, and return the instance for chaining.
     $this->data = $response;
+
+    // Did we get a captcha response?
+    if (isset($this->data->code)) {
+      if ($this->data->code === 10000) {
+
+        // Delete existing cookies.
+        if ($this->useCookies) $this->cookieJar->delete();
+      }
+    }
+
     return $this;
 	}
 
