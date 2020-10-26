@@ -6,12 +6,12 @@ require_once __DIR__ . '/../src/TikTok.php';
 /**
  * Get development config
  */
-// config = require_once __DIR__ . '/env.php';
+$config = require_once __DIR__ . '/env.php';
 
 use TikTok\Scraper;
 
 // Instantiate TikTok Scraper library
-$scraper = new Scraper();
+$scraper = new Scraper($config);
 
 try {
   $data = $scraper->music->videos(6821468236035541766, 1);

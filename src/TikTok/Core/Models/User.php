@@ -17,13 +17,27 @@ class User
     if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('No __NEXT_DATA__[props][pageProps]');
 
     // If this property is missing, the user does not exist.
-    if (!isset($NEXT_DATA['props']['pageProps']['userData'])) return $this->error('User does not exist', true);
+    if (!isset($NEXT_DATA['props']['pageProps']['userInfo'])) return $this->error('User does not exist', true);
 
     // Set Userdata
-    $userData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['userData']));
+    $userData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['userInfo']));
 
     // set all keys from userData to the instance.
     foreach ($userData as $key => $val) $instance->{$key} = $val;
+
+    // Backwards compatible
+    $instance->userId = $userData->user->id;
+    $instance->covers = [ $userData->user->avatarThumb ];
+    $instance->coversMedium = [ $userData->user->avatarMedium ];
+    $instance->nickName = $userData->user->nickname;
+    $instance->following = $userData->stats->followingCount;
+    $instance->fans = $userData->stats->followerCount;
+    $instance->heart = $userData->stats->heartCount;
+    $instance->video = $userData->stats->videoCount;
+    $instance->verified = $userData->user->verified;
+    $instance->digg = $userData->stats->diggCount;
+    $instance->signature = $userData->user->signature;
+    $instance->secUid = $userData->user->secUid;
 
     return $instance;
   }

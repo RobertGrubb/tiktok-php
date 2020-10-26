@@ -15,10 +15,11 @@ class Video
     if (count($NEXT_DATA) === 0)  return $this->error('__NEXT_DATA__');
     if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');
     if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('__NEXT_DATA__[props][pageProps]');
-    if (!isset($NEXT_DATA['props']['pageProps']['videoData'])) return $this->error('__NEXT_DATA__[props][pageProps][videoData]');
+    if (!isset($NEXT_DATA['props']['pageProps']['itemInfo'])) return $this->error('__NEXT_DATA__[props][pageProps][itemInfo]');
+    if (!isset($NEXT_DATA['props']['pageProps']['itemInfo']['itemStruct'])) return $this->error('__NEXT_DATA__[props][pageProps][itemInfo][itemStruct]');
 
     // Set videoData
-    $videoData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['videoData']));
+    $videoData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['itemInfo']['itemStruct']));
 
     // set all keys from userData to the instance.
     foreach ($videoData as $key => $val) $instance->{$key} = $val;
