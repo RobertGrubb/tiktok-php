@@ -58,7 +58,7 @@ class HashtagRequests
 
     // Get the videos by challengeId
     $endpoint = $this->instance->endpoints->get('m.trending', [
-      'id' => $hashtagData->challengeId,
+      'id' => $hashtagData->id,
       'count' => $count
     ]);
 

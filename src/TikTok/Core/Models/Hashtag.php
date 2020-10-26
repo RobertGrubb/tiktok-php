@@ -15,13 +15,15 @@ class Hashtag
     if (count($NEXT_DATA) === 0)  return $this->error('__NEXT_DATA__');
     if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');
     if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('__NEXT_DATA__[props][pageProps]');
-    if (!isset($NEXT_DATA['props']['pageProps']['challengeData'])) return $this->error('__NEXT_DATA__[props][pageProps][challengeData]');
+    if (!isset($NEXT_DATA['props']['pageProps']['challengeInfo'])) return $this->error('__NEXT_DATA__[props][pageProps][challengeInfo]');
 
     // Set videoData
-    $hashtagData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['challengeData']));
+    $hashtagData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['challengeInfo']));
 
     // set all keys from userData to the instance.
     foreach ($hashtagData as $key => $val) $instance->{$key} = $val;
+
+    $instance->id = $hashtagData->challenge->id;
 
     return $instance;
   }
