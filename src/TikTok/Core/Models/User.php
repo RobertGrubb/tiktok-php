@@ -38,6 +38,7 @@ class User
     $instance->digg = $userData->stats->diggCount;
     $instance->signature = $userData->user->signature;
     $instance->secUid = $userData->user->secUid;
+    $instance->uniqueId = $userData->user->uniqueId;
 
     return $instance;
   }
