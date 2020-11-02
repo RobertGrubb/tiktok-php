@@ -15,7 +15,7 @@ $scraper = new Scraper($config);
 
 try {
   // username & id of video
-  $data = $scraper->user->downloadVideo('iratee', 6821468282583928069, false);
+  $data = $scraper->user->downloadVideo('iratee', 6821468282583928069);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

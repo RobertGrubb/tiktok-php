@@ -35,7 +35,20 @@ class Downloader {
   /**
    * Downloads the video
    */
-  public static function video ($url, $destination = './') {
+  public static function video ($url, $destination = './', $options = []) {
+
+    if (!isset($options['cookies'])) {
+      throw new \Exception('Cookies not set for downloader.');
+    }
+
+    if (!isset($options['cookies']['tt_webid'])) {
+      throw new \Exception('No tt_webid set');
+    }
+
+    if (!isset($options['cookies']['tt_webid_v2'])) {
+      throw new \Exception('No tt_webid_v2 set');
+    }
+
     $fileName = time() . '.mp4';
     $destination = (substr($destination, -1) === '/' ? $destination : $destination . '/');
     $filePath = $destination . $fileName;
@@ -43,11 +56,15 @@ class Downloader {
     $ch = curl_init($url);
     $fp = fopen($filePath, 'wb');
     curl_setopt($ch, CURLOPT_FILE, $fp);
+
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Referer: https://www.tiktok.com/",
-      "User-Agent: okhttp"
+      "User-Agent: " . $options['userAgent'],
+      "Cookie: tt_webid=" . $options['cookies']['tt_webid'] . "; tt_webid_v2=" . $options['cookies']['tt_webid_v2'] . ";"
     ]);
+
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
     curl_exec($ch);
     curl_close($ch);
     fclose($fp);

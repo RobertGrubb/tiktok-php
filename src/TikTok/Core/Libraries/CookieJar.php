@@ -58,6 +58,26 @@ class CookieJar {
     return false;
   }
 
+  public function getCookieValue ($cookie) {
+    $contents = $this->contents();
+
+    if (!$contents) return false;
+
+    if (!is_array($contents)) return false;
+
+    $response = false;
+
+    foreach ($contents as $c) {
+      if (strpos($cookie, $c) !== -1) {
+        $parts = explode(';', $c);
+        $val = explode('=', $parts[0])[1];
+        $response = $val;
+      }
+    }
+
+    return $response;
+  }
+
   /**
    * Responsible for writing to the cookie file.
    * @param  array $data

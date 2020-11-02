@@ -160,13 +160,20 @@ class UserRequests
     // If no video data is returned, return false.
     if (!$videoData) return false;
 
+
     // Get the URL
-    $url = $videoData->itemInfos->video->urls[0];
+    $url = $videoData->video->playAddr;
 
     // Get the URL
     if ($watermark === false) $url = \TikTok\Core\Libraries\Downloader::getUrlWithoutWatermark($url);
 
     // Download the video
-    return \TikTok\Core\Libraries\Downloader::video($url, $path);
+    return \TikTok\Core\Libraries\Downloader::video($url, $path, [
+      'userAgent' => $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => [
+        'tt_webid' => $this->instance->request->cookieJar->getCookieValue('tt_webid'),
+        'tt_webid_v2' => $this->instance->request->cookieJar->getCookieValue('tt_webid_v2')
+      ]
+    ]);
   }
 }
