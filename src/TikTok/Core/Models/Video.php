@@ -8,7 +8,7 @@ class Video
   /**
    * Convert from next data array
    */
-  public function fromNextData ($NEXT_DATA) {
+  public function fromNextData ($NEXT_DATA, $requestInfo = false) {
     $instance = new self();
 
     // Validate the response data
@@ -23,6 +23,17 @@ class Video
 
     // set all keys from userData to the instance.
     foreach ($videoData as $key => $val) $instance->{$key} = $val;
+
+
+    if (is_array($requestInfo)) {
+      if (isset($requestInfo['userAgent']) && isset($requestInfo['cookies'])) {
+        $instance->videoDownloadData = (object) [
+          'referer' => 'https://www.tiktok.com/',
+          'userAgent' => $requestInfo['userAgent'],
+          'cookies' => $requestInfo['cookies']
+        ];
+      }
+    }
 
     return $instance;
   }

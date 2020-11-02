@@ -145,11 +145,29 @@ class UserRequests
     // If there is an error, set the error in the parent, return false.
     if (isset($nextData->error)) return $this->instance->setError($nextData->message);
 
-    $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData);
+    $videoData = (new \TikTok\Core\Models\Video())->fromNextData($nextData, [
+      'userAgent' => $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => [
+        'tt_webid' => $this->instance->request->cookieJar->getCookieValue('tt_webid'),
+        'tt_webid_v2' => $this->instance->request->cookieJar->getCookieValue('tt_webid_v2')
+      ]
+    ]);
     return $videoData;
   }
 
-  public function downloadVideo ($username = null, $id = null, $watermark = true, $path = './') {
+  public function downloadVideoFromUrl ($url, $vars = [], $path = './') {
+
+    // Download the video
+    return \TikTok\Core\Libraries\Downloader::video($url, $path, [
+      'userAgent' => isset($vars['userAgent']) ? $vars['userAgent'] : $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => isset($vars['cookies']) ? $vars['cookies'] : [
+        'tt_webid' => $this->instance->request->cookieJar->getCookieValue('tt_webid'),
+        'tt_webid_v2' => $this->instance->request->cookieJar->getCookieValue('tt_webid_v2')
+      ]
+    ]);
+  }
+
+  public function downloadVideo ($username = null, $id = null, $watermark = true, $path = './', $vars = []) {
 
     // Validate arguments
     if (!$this->instance->valid($username, $id)) return false;
@@ -169,8 +187,8 @@ class UserRequests
 
     // Download the video
     return \TikTok\Core\Libraries\Downloader::video($url, $path, [
-      'userAgent' => $this->instance->endpoints->headers['m']['User-Agent'],
-      'cookies' => [
+      'userAgent' => isset($vars['userAgent']) ? $vars['userAgent'] : $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => isset($vars['cookies']) ? $vars['cookies'] : [
         'tt_webid' => $this->instance->request->cookieJar->getCookieValue('tt_webid'),
         'tt_webid_v2' => $this->instance->request->cookieJar->getCookieValue('tt_webid_v2')
       ]
