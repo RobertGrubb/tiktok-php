@@ -97,7 +97,7 @@ class CookieJar {
     return false;
   }
 
-  private function delete () {
+  public function delete () {
     if ($this->isWritable()) file_put_contents($this->config->cookieFile, '');
     return false;
   }
@@ -106,7 +106,7 @@ class CookieJar {
    * Check if the cookie file exists
    * @return boolean
    */
-  private function exists () {
+  public function exists () {
     if (!isset($this->config->cookieFile)) return false;
     if (file_exists($this->config->cookieFile)) return true;
     return false;
@@ -116,7 +116,7 @@ class CookieJar {
    * Check if the cookie file is readable
    * @return boolean
    */
-  private function isReadable () {
+  public function isReadable () {
     if (!$this->exists()) return false;
     if (is_readable($this->config->cookieFile)) return true;
     return false;
@@ -126,7 +126,7 @@ class CookieJar {
    * Check if the cookie file is writable.
    * @return boolean
    */
-  private function isWritable () {
+  public function isWritable () {
     if (!$this->exists()) return false;
     if (is_writable($this->config->cookieFile)) return true;
     return false;
