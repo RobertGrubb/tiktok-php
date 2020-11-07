@@ -15,7 +15,7 @@ $scraper = new Scraper($config);
 
 
 try {
-  $data = $scraper->user->details('iratee');
+  $data = $scraper->user->details('selenagomez');
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

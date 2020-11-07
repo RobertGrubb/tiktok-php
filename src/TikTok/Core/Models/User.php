@@ -39,6 +39,13 @@ class User
     $instance->signature = $userData->user->signature;
     $instance->secUid = $userData->user->secUid;
     $instance->uniqueId = $userData->user->uniqueId;
+    $instance->bioLink = false;
+
+    if (isset($userData->user->bioLink)) {
+      if (isset($userData->user->bioLink->link)) {
+        $instance->bioLink = $userData->user->bioLink->link;
+      }
+    }
 
     return $instance;
   }
