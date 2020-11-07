@@ -161,20 +161,15 @@ class Endpoints {
           'language'        => 'en'
         ]
       ],
-
       'hashtag-videos'   => [
-        'url' => '',
+        'url' => 'https://m.tiktok.com/api/challenge/item_list/?',
         'vars' => [
-          'secUid'    => '',
-          'id'        => '',
-          'type'      => 3,
-          'count'     => 30,
-          'minCursor' => 0,
-          'maxCursor' => 0,
-          'shareUid'  => '',
-          'language'  => 'en',
-          'verifyFp'  => ''
-        ]
+          'aid'             => 1988,
+          'count'           => 30,
+          'cursor'          => 0,
+          'challengeID'     => ''
+        ],
+        'disableSignature' => true
       ],
 
       'music-videos' => [
@@ -286,7 +281,7 @@ class Endpoints {
       $endpointVars = $this->endpoints[$type][$point]['vars'];
 
       // Gotta do some signing here.
-      return $this->buildUrl($url, array_merge($endpointVars, $vars), $customUserAgent);
+      return $this->buildUrl($url, array_merge($endpointVars, $vars), $customUserAgent, (isset($this->endpoints[$type][$point]['disableSignature']) ? $this->endpoints[$type][$point]['disableSignature'] : false));
     }
   }
 
@@ -295,7 +290,11 @@ class Endpoints {
    * Anything that reaches https://m.tiktok.com needs to be
    * signed.
    */
-  private function buildUrl ($url, $vars, $customUserAgent = false) {
+  private function buildUrl ($url, $vars, $customUserAgent = false, $ignoreSigning = false) {
+
+    if ($ignoreSigning === true) {
+      return $url . http_build_query($vars);
+    }
 
     // Build the URL and query string
     $url = $url . http_build_query($vars) . '&verifyFp=';

@@ -14,7 +14,7 @@ use TikTok\Scraper;
 $scraper = new Scraper($config);
 
 try {
-  $data = $scraper->hashtag->videos('beatbox');
+  $data = $scraper->hashtag->videos('beatbox', 30);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

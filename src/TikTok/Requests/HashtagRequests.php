@@ -45,7 +45,7 @@ class HashtagRequests
    * @param  string  $hashtag
    * @param  integer $count
    */
-  public function videos ($hashtag = null, $count = 30) {
+  public function videos ($hashtag = null, $count = 30, $cursor = 0) {
 
     // Validate arguments
     if (!$this->instance->valid($hashtag)) return false;
@@ -57,9 +57,10 @@ class HashtagRequests
     if (!$hashtagData) return false;
 
     // Get the videos by challengeId
-    $endpoint = $this->instance->endpoints->get('m.trending', [
-      'id' => $hashtagData->id,
-      'count' => $count
+    $endpoint = $this->instance->endpoints->get('m.hashtag-videos', [
+      'challengeID' => $hashtagData->id,
+      'count' => $count,
+      'cursor' => $cursor
     ]);
 
     // Retrieve the videos.
