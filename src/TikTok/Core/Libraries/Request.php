@@ -90,8 +90,6 @@ class Request {
     // Grab headers that will be used based on endpoint
     $headers = $this->getHeaders($endpoint);
 
-    print_r($headers);
-
 	  // Initiate CURL
 	  $ch = curl_init();
 
