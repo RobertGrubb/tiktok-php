@@ -16,17 +16,10 @@ $scraper = new Scraper($config);
 
 try {
 
-  /**
-   * 1st Param: type ('hashtag', 'music', 'user')
-   * 2nd param: Array of params (count, offset)
-   */
+  $data = $scraper->captcha->setFp()->get()->solve();
 
-  $data = $scraper->discover->get('user', [ 'count' => 30 ]);
+  var_dump($data);
 
-  // Check for an error here.
-  if ($scraper->error) print_r($scraper->error);
-
-  print_r($data);
 } catch (Exception $e) {
   echo $e->getMessage() . PHP_EOL;
 }

@@ -29,6 +29,15 @@ class SessionRequests
    * Call the homepage of TikTok to get the set-cookie
    * headers so it can be saved to the cookie jar.
    */
+  public function resetCookies () {
+    $endpoint = $this->instance->endpoints->get('web.home');
+    $this->instance->request->call($endpoint)->saveCookies();
+  }
+
+  /**
+   * Call the homepage of TikTok to get the set-cookie
+   * headers so it can be saved to the cookie jar.
+   */
   public function initialCall () {
     $endpoint = $this->instance->endpoints->get('web.home');
     $this->instance->request->call($endpoint)->saveCookies();
@@ -38,17 +47,19 @@ class SessionRequests
    * @EXPERIMENTAL: Get SessionId
    */
   public function ssid () {
-    if (!$this->webId) return false;
+    if (!$this->instance->request->savedCookies()) return false;
 
     $endpoint = $this->instance->endpoints->get('web.session-id');
+
+    $webId = $this->instance->request->cookieJar->getCookieValue('tt_webid_v2');
 
     // Send a request to the api responsible for setting session id
     $res = $this->instance
       ->request
       ->setPostParams([
         'app_id'         => 1988,
-        'user_unique_id' => $this->webId,
-        'web_id'         => $this->webId
+        'user_unique_id' => $webId,
+        'web_id'         => $webId
       ])
       ->call($endpoint)
       ->response();

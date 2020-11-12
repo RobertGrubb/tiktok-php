@@ -16,24 +16,18 @@ class Captcha {
    * captcha requests.
    */
   private $headers = [
-    'Authority'       => 'www.tiktok.com',
-    'Upgrade-Insecure-Requests' => '1',
     'User-Agent'      => '',
-    'Sec-Fetch-Dest'  => 'document',
-    'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'Sec-Fetch-Site'  => 'none',
-    'Sec-Fetch-Mode'  => 'navigate',
-    'Sec-Fetch-User'  => '?1',
     'Accept-Language' => 'en-US,en;q=0.9',
-    'Referer'         => 'https://www.tiktok.com/'
+    'Referer'         => 'https://www.tiktok.com/discover?lang=en',
+    'Origin'          => 'https://www.tiktok.com'
   ];
 
   /**
    * URLS for captcha
    */
   public $urls = [
-    'verify' => 'https://www.tiktok.com/captcha/verify?',
-    'get'    => 'https://www.tiktok.com/captcha/get?'
+    'verify' => 'https://verification-va.byteoversea.com/captcha/verify?',
+    'get'    => 'https://verification-va.byteoversea.com/captcha/get?'
   ];
 
   /**
@@ -42,18 +36,18 @@ class Captcha {
    */
   public $params = [
     'lang'           => 'en',
-    'app_name'       => 'Tik_Tok_Login',
-    'h5_sdk_version' => '2.15.0',
+    'app_name'       => 'tiktok',
+    'h5_sdk_version' => '2.15.17',
     'sdk_version'    => '',
     'iid'            => 0,
     'did'            => 0,
     'device_id'      => 0,
     'ch'             => 'web_text',
-    'aid'            => 1459,
+    'aid'            => 1284,
     'os_type'        => 2,
     'tmp'            => '',
     'platform'       => 'pc',
-    'subtype'        => '3d',
+    'subtype'        => 'slide',
     'challenge_code' => 1105,
     'webdriver'      => 'undefined',
     'os_name'        => 'mac'
@@ -64,13 +58,43 @@ class Captcha {
 
   private $fp = '';
 
-  public function __construct () {
+  private $instance;
+
+  private $response = [
+    'modified_img_width' => 336,
+    'id' => null,
+    'mode' => 'slide',
+    'reply' => [],
+    'models' => [
+      'x' => [],
+      'y' => [],
+      'z' => [],
+      't' => [],
+      'm' => []
+    ]
+  ];
+
+  public $startTime = null;
+
+
+  public function __construct ($instance) {
+
+    $this->instance  = $instance;
 
     // Set the tmp parameter with a timestamp * 10000
     $this->params['tmp'] = (time() * 1000) + 120;
+
+    $this->headers['User-Agent'] = $this->instance->endpoints->headers['m']['User-Agent'];
   }
 
-  public function setFp($fp) {
+  public function setFp() {
+    if (!$this->instance->request->savedCookies())
+       throw new \Exception('No cookies found.');
+
+    $fp = $this->instance->request->cookieJar->getCookieValue('s_v_web_id');
+
+    if (!$fp) throw new \Exception('No s_v_web_id cookie found.');
+
     $this->fp = $fp;
 
     return $this;
@@ -92,7 +116,8 @@ class Captcha {
     // Set the captcha data.
     $this->captchaData = $data;
 
-    // Return the captcha data (todo, return instance.)
+    $this->startTime = (time() * 1000);
+
     return $this;
   }
 
@@ -109,25 +134,56 @@ class Captcha {
 
     // Setup the params to be passed to _call
     $params = array_merge($this->params, [
-      'fp' => $this->fp,
-      'subtype' => $this->captchaData['data']->mode,
-      'challenge_code' => $this->captchaData['data']->challenge_code,
+      'fp' => $this->fp
     ]);
 
     // Set a timestamp
     $now = time();
 
     // Setup the vars object
-    $vars = [
-      'id' => $this->captchaData['data']->id,
-      'mode' => $this->captchaData['data']->mode,
-      'models' => [], // Todo: Get info
-      'modified_img_width' => 336,
-      'reply' => [] // Todo: Get info
-    ];
+    $vars = $this->response;
+
+    $vars['id'] = $this->captchaData['data']->id;
+
+    $startTime = $this->startTime;
+
+    $lastTime = $startTime;
+
+    $vars['models']['x']['time'] = $startTime;
+    $vars['models']['x']['y'] = 171;
+    $vars['models']['x']['x'] = 17;
+
+    for ($i = 0; $i <= 48; $i++) {
+      $lastTime = ($lastTime + rand(5, 10));
+
+      $vars['reply'][$i] = [
+        'x' => ($i * 1.35),
+        'y' => 79,
+        'relative_time' => $lastTime
+      ];
+
+      $vars['models']['m'][$i] = [
+        'x' => ($i * 1.35),
+        'y' => 183,
+        'time' => $lastTime
+      ];
+
+      $vars['models']['z'][$i] = [
+        'x' => ($i * 1.35),
+        'y' => 183,
+        'time' => $lastTime
+      ];
+    }
 
     // Convert the vars data to a json formatted string, and add it to the array.
-    $vars['log_params'] = json_encode($vars);
+    $vars['log_params'] = json_encode(array_merge($this->params, [
+      'drag_type' => 'img',
+      'challenge_id' => $vars['id'],
+
+      'moveArray' => addslashes(json_encode($vars['models']))
+    ]), JSON_PRETTY_PRINT);
+
+    print_r($vars);
 
     // Call the verification endpoint.
     return $this->_call($this->urls['verify'], $params, 'post', $vars);
@@ -137,6 +193,10 @@ class Captcha {
     if (!$url) return false;
 
     $url .= http_build_query($params);
+
+    print_r($this->formatHeaders($this->headers));
+
+    var_dump($url);
 
     $ch = curl_init();
 

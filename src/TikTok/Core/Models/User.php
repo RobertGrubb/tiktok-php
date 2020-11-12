@@ -8,6 +8,47 @@ class User
   /**
    * Convert from next data array
    */
+  public function fromJsonData ($data) {
+    $instance = new self();
+
+    // If this property is missing, the user does not exist.
+    if (!isset($data->userInfo)) return $this->error('UserInfo object not found', true);
+
+
+    // Set Userdata
+    $userData = $data->userInfo;
+
+    // set all keys from userData to the instance.
+    foreach ($userData as $key => $val) $instance->{$key} = $val;
+
+    // Backwards compatible
+    $instance->userId = $userData->user->id;
+    $instance->covers = [ $userData->user->avatarThumb ];
+    $instance->coversMedium = [ $userData->user->avatarMedium ];
+    $instance->nickName = $userData->user->nickname;
+    $instance->following = $userData->stats->followingCount;
+    $instance->fans = $userData->stats->followerCount;
+    $instance->heart = $userData->stats->heartCount;
+    $instance->video = $userData->stats->videoCount;
+    $instance->verified = $userData->user->verified;
+    $instance->digg = $userData->stats->diggCount;
+    $instance->signature = $userData->user->signature;
+    $instance->secUid = $userData->user->secUid;
+    $instance->uniqueId = $userData->user->uniqueId;
+    $instance->bioLink = false;
+
+    if (isset($userData->user->bioLink)) {
+      if (isset($userData->user->bioLink->link)) {
+        $instance->bioLink = $userData->user->bioLink->link;
+      }
+    }
+
+    return $instance;
+  }
+
+  /**
+   * Convert from next data array
+   */
   public function fromNextData ($NEXT_DATA) {
     $instance = new self();
 

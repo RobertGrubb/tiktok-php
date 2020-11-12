@@ -58,7 +58,7 @@ class Scraper
     /**
      * Instantiate the request instance.
      */
-    $this->endpoints = new Endpoints($this->config);
+    $this->endpoints = new Endpoints($this->config, $this);
 
     /**
      * Instantiate the request instance.

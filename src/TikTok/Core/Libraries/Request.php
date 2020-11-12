@@ -160,6 +160,16 @@ class Request {
     // Curl info
     $info = curl_getinfo($ch);
 
+    if (strpos($response, 'tiktok-verify-page') !== false) {
+
+      $this->data = (object) [
+        'error' => true,
+        'message' => 'Verification for current cookie data is required.'
+      ];
+
+      return $this;
+    }
+
     if (isset($this->config->verbose)) {
       if ($this->config->verbose === true) {
         print_r([
@@ -184,9 +194,6 @@ class Request {
         'error' => true,
         'message' => 'Status code ' . $info['http_code'] . ' was returned'
       ];
-
-      // Delete existing cookies.
-      if ($this->useCookies) $this->cookieJar->delete();
 
       return $this;
     }
@@ -270,7 +277,8 @@ class Request {
   /**
    * Simply returns the data variable.
    */
-  public function response () {
+  public function response ($json = false) {
+    if ($json === true) return json_decode($this->data);
     return $this->data;
   }
 

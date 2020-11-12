@@ -60,6 +60,35 @@ class Endpoints {
     ],
 
     'm' => [
+      'user-details' => [
+        'url' => 'https://www.tiktok.com/node/share/user/@{username}?',
+        'vars' => [
+          'aid' => '1988',
+          'app_name' => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer' => 'https://www.tiktok.com',
+          'cookie_enabled' => 'true',
+          'screen_width' => '1440',
+          'screen_height' => '900',
+          'ac' => '4g',
+          'page_referer' => 'https://www.tiktok.com/foryou?lang=en',
+          'priority_region' => '',
+          'appId' => '1233',
+          'region' => 'US',
+          'appType' => 'm',
+          'isAndroid' => 'false',
+          'isMobile' => 'false',
+          'isIOS' => 'false',
+          'OS' => 'mac',
+          'did' => '',
+          'isUniqueId' => 'true',
+          'sec_uid' => '',
+          'lang' => 'en',
+          'uniqueId' => '',
+          'validUniqueId' => ''
+        ]
+      ],
+
       'user-videos'  => [
         'url'  => 'https://m.tiktok.com/api/item_list/?',
         'vars' => [
@@ -230,11 +259,14 @@ class Endpoints {
     'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/417.9 (KHTML, like Gecko) Safari/417.8'
   ];
 
+  private $instance;
+
   /**
    * Class construction
    */
-  public function __construct ($config = null) {
+  public function __construct ($config = null, $instance) {
     $this->config = $config;
+    $this->instance = $instance;
 
     // Set user agent
     if (isset($this->config->userAgent)) {
@@ -278,6 +310,11 @@ class Endpoints {
     } else {
 
       $url = $this->endpoints[$type][$point]['url'];
+
+      foreach ($vars as $key => $val) {
+        $url = str_replace('{' . $key . '}', $val, $url);
+      }
+
       $endpointVars = $this->endpoints[$type][$point]['vars'];
 
       // Gotta do some signing here.
@@ -296,8 +333,17 @@ class Endpoints {
       return $url . http_build_query($vars);
     }
 
-    // Build the URL and query string
-    $url = $url . http_build_query($vars) . '&verifyFp=';
+    if ($this->instance->request->savedCookies()) {
+      $fp = $this->instance->request->cookieJar->getCookieValue('s_v_web_id');
+
+      if ($fp) {
+        $url = $url . http_build_query($vars) . '&verifyFp=' . $fp;
+      } else {
+        $url = $url . http_build_query($vars) . '&verifyFp=';
+      }
+    } else {
+      $url = $url . http_build_query($vars) . '&verifyFp=';
+    }
 
     $signature = [];
 
