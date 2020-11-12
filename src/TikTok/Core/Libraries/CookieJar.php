@@ -68,10 +68,10 @@ class CookieJar {
     $response = false;
 
     foreach ($contents as $c) {
-      if (strpos($cookie, $c) !== -1) {
+      if (strpos($c, $cookie) !== -1) {
         $parts = explode(';', $c);
         $val = explode('=', $parts[0])[1];
-        $response = $val;
+        return $val;
       }
     }
 
