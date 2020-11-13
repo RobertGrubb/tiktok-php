@@ -164,6 +164,7 @@ class Request {
 
       $this->data = (object) [
         'error' => true,
+        'type' => 'VERIFY',
         'message' => 'Verification for current cookie data is required.'
       ];
 
@@ -192,6 +193,7 @@ class Request {
     if ($info['http_code'] !== 200) {
       $this->data = (object) [
         'error' => true,
+        'type' => 'HTTP_CODE',
         'message' => 'Status code ' . $info['http_code'] . ' was returned'
       ];
 
@@ -204,6 +206,7 @@ class Request {
     if (empty($response)) {
       $this->data = (object) [
         'error' => true,
+        'type' => 'EMPTY_RESPONSE',
         'message' => 'Empty response'
       ];
     }
@@ -219,6 +222,7 @@ class Request {
 
         $this->data = (object) [
           'error' => true,
+          'type' => 'DECODE_ERROR',
           'message' => 'Unable to decode JSON data'
         ];
 
@@ -308,6 +312,7 @@ class Request {
 
     return (object) [
       'error' => true,
+      'type' => 'NO_NEXT_DATA',
       'message' => 'Unable to retrieve NEXT_DATA from DOM'
     ];
   }

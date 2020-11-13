@@ -98,6 +98,7 @@ class User
   public function error ($field, $customMessage = false) {
     return (object) [
       'error' => true,
+      'type' => 'MALFORMED_NEXT_DATA',
       'message' => ($customMessage ? $field : 'Object: ' . $field . ' not found')
     ];
   }

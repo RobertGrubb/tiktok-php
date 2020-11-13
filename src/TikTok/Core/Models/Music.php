@@ -33,6 +33,7 @@ class Music
   public function error ($field) {
     return (object) [
       'error' => true,
+      'type' => 'MALFORMED_NEXT_DATA',
       'message' => 'Object: ' . $field . ' not found'
     ];
   }
