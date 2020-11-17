@@ -25,54 +25,50 @@ class SessionRequests
     $this->instance  = $instance;
   }
 
-  /**
-   * Call the homepage of TikTok to get the set-cookie
-   * headers so it can be saved to the cookie jar.
-   */
-  public function resetCookies () {
-    $endpoint = $this->instance->endpoints->get('web.home');
-    $this->instance->request->call($endpoint)->saveCookies();
+  public function saveVerifyFp ($fp) {
+    $cookies = $this->instance->request->cookieJar->contents();
+
+    foreach ($cookies as $key => $c) {
+      if (strpos($c, 's_v_web_id') !== false) {
+        $cookies[$key] = 's_v_web_id=' . $fp . '; domain=www.tiktok.com; path=/; expires=' . strtotime('+1 year');
+      }
+    }
+
+    $this->instance->request->cookies = $cookies;
+    $this->instance->request->saveCookies();
+
+    return true;
   }
 
-  /**
-   * Call the homepage of TikTok to get the set-cookie
-   * headers so it can be saved to the cookie jar.
-   */
-  public function initialCall () {
-    $endpoint = $this->instance->endpoints->get('web.home');
-    $this->instance->request->call($endpoint)->saveCookies();
-  }
+  public function generate ($customVerifyFp = null) {
+    $cookies = [];
 
-  /**
-   * @EXPERIMENTAL: Get SessionId
-   */
-  public function ssid () {
-    if (!$this->instance->request->savedCookies()) return false;
+    $webRequest = $this->webid();
 
-    $endpoint = $this->instance->endpoints->get('web.session-id');
+    if (!$webRequest) throw new \Exception('Unable to make web id request.');
+    if (!isset($webRequest->web_id)) throw new \Exception('Unable to make web id request');
 
-    $webId = $this->instance->request->cookieJar->getCookieValue('tt_webid_v2');
+    $webId = $webRequest->web_id;
+    $verifyFp = (!is_null($customVerifyFp) ? $customVerifyFp :$this->instance->fp->generate());
 
-    // Send a request to the api responsible for setting session id
-    $res = $this->instance
-      ->request
-      ->setPostParams([
-        'app_id'         => 1988,
-        'user_unique_id' => $webId,
-        'web_id'         => $webId
-      ])
-      ->call($endpoint)
-      ->response();
+    $cookies[] = 's_v_web_id=' . $verifyFp . '; domain=www.tiktok.com; path=/; expires=' . strtotime('+1 year');
+    $cookies[] = 'tt_webid=' . $webId . '; domain=www.tiktok.com; path=/; expires=' . strtotime('+1 year');
+    $cookies[] = 'tt_webid_v2=' . $webId . '; domain=www.tiktok.com; path=/; expires=' . strtotime('+1 year');
 
-    return $res;
+    $this->instance->request->cookies = $cookies;
+    $this->instance->request->saveCookies();
+
+    return [
+      'success' => true,
+      'userAgent' => $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => $cookies
+    ];
   }
 
   /**
    * @EXPERIMENTAL: Get webid
    */
   public function webid () {
-    if ($this->instance->request->savedCookies()) return $this;
-
     $endpoint = $this->instance->endpoints->get('web.web-id');
 
     // Send a request to the api responsible for setting web id
@@ -86,8 +82,8 @@ class SessionRequests
         'user_unique_id' => ''
       ])
       ->call($endpoint)
-      ->saveCookies();
+      ->response();
 
-    return $this;
+    return $res;
   }
 }

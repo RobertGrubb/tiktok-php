@@ -60,6 +60,30 @@ class Endpoints {
     ],
 
     'm' => [
+      'suggested' => [
+        'url' => 'https://m.tiktok.com/node/share/discover?',
+        'vars' => [
+          'aid' => '1988',
+          'app_name' => 'tiktok_web',
+          'device_platform' => 'web',
+          'referer' => 'https://www.tiktok.com',
+          'cookie_enabled' => 'true',
+          'priority_region' => '',
+          'verifyFp' => '',
+          'appId' => '1233',
+          'region' => 'US',
+          'appType' => 'm',
+          'isAndroid' => 'false',
+          'isMobile' => 'false',
+          'isIOS' => 'false',
+          'OS' => 'mac',
+          'did' => '',
+          'noUser' => '0',
+          'userCount' => '30',
+          'scene' => '15'
+        ]
+      ],
+
       'user-details' => [
         'url' => 'https://www.tiktok.com/node/share/user/@{username}?',
         'vars' => [

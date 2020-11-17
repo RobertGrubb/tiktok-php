@@ -41,7 +41,7 @@ class Request {
    * Cookies from response
    * @var array
    */
-  private $cookies = [];
+  public $cookies = [];
 
   /**
    * CookieJar class

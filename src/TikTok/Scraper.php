@@ -91,6 +91,11 @@ class Scraper
     $this->music = new \TikTok\Requests\MusicRequests($this);
 
     /**
+     * Instantiate the music requests class
+     */
+    $this->suggested = new \TikTok\Requests\SuggestedRequests($this);
+
+    /**
      * Instantiate the session requests class
      */
     $this->session = new \TikTok\Requests\SessionRequests($this);
@@ -100,6 +105,9 @@ class Scraper
      * Captcha library
      */
     $this->captcha = new \TikTok\Core\Libraries\Captcha($this);
+
+
+    $this->fp = new \TikTok\Core\Libraries\Fp;
 
 
     /**
@@ -117,7 +125,15 @@ class Scraper
     // If using cookies, check for saved cookies. If not, get them.
     if ($useCookies === true) {
       if (!$this->request->savedCookies()) {
-        $this->session->initialCall();
+        $this->session->generate((
+          isset($this->config->verifyFp) ?
+          $this->config->verifyFp :
+          null
+        ));
+      } else {
+        if (isset($this->config->verifyFp)) {
+          $this->session->saveVerifyFp($this->config->verifyFp);
+        }
       }
     }
   }
