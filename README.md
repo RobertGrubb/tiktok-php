@@ -4,15 +4,29 @@
 By default, this scraper will attempt to use NodeJS to sign the URL. If you do not have node installed, it will attempt to install it during the composer install step. If you do, it will simply find the path to it. If you'd like to change this logic, you can read more below about setting your signMethod => 'datafetch', an API I have created for signing tiktok urls.
 ```
 
+# 1.9.12
+
+Setting verifyFp manually is now an option, as captcha verification has been taking TikTok by storm. You can set it like so:
+
+```
+$scraper = new Scraper([
+  'verifyFp' => 'verify_xxxxx_xxxx_xxxx_xxx...'
+])
+```
+
+If you do not set one, by default, the scraper will attempt to generate the following cookies for you:
+
+```
+verifyFp, tt_webid, and tt_webid_v2
+```
+
+However, in most cases at this moment, the fp token will end up being a trigger for captcha.
+
 # Cookie File
 
 In `v1.8.0`, the scraper now sets cookies by default, which means that you must provide writable permissions for a `cookies.json` file, and then set it in the configuration (see example config below).
 
-Need to disable cookies? Set `'disableCookies' => true` in the configuration. See example below.
-
-Need to reset the cookies at any point?
-
-Call the `$scraper->session->resetCookies()` function.
+Need to disable cookies? Set `'disableCookies' => true` in the configuration.
 
 ## Installation
 
