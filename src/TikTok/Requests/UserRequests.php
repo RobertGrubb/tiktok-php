@@ -26,7 +26,7 @@ class UserRequests
   /**
    * Gets details for a specific user.
    */
-  public function details ($username = null) {
+  public function details ($username = null, $fromShare = true) {
 
     // Validate arguments
     if (!$this->instance->valid($username)) return false;
@@ -34,13 +34,18 @@ class UserRequests
     // Check for the @ symbol, format accordingly.
     if (strpos($username, '@') !== false) $username = ltrim($username, '@');
 
-    $endpoint = $this->instance->endpoints->get('web.user-details', [ 'username' => $username ]);
+    $endpoint = $this->instance->endpoints->get('web.' . ($fromShare === true ? 'user-share' : 'user-details'), [ 'username' => $username ]);
     $nextData = $this->instance->request->call($endpoint)->extract();
 
     // If there is an error, set the error in the parent, return false.
     if (isset($nextData->error)) return $this->instance->setError($nextData->message);
 
-    $userData = (new \TikTok\Core\Models\User())->fromNextData($nextData);
+    if ($fromShare === true) {
+      $userData = (new \TikTok\Core\Models\User())->fromShareData($nextData);
+    } else {
+      $userData = (new \TikTok\Core\Models\User())->fromNextData($nextData);
+    }
+
     return $userData;
   }
 

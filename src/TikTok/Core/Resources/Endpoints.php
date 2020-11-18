@@ -47,6 +47,7 @@ class Endpoints {
 
       // Users
       'user-details' => 'https://www.tiktok.com/@{username}',
+      'user-share'   => 'https://www.tiktok.com/share/user/{username}',
       'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}',
       'user-video-embed' => 'https://www.tiktok.com/embed/v2/{id}?lang=en-US',
 
