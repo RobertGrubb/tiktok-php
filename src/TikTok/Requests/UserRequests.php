@@ -144,6 +144,7 @@ class UserRequests
     $endpoint = $this->instance->endpoints->get('web.user-video-embed', [ 'id' => $id ]);
     $nextData = $this->instance->request->call($endpoint)->extract();
 
+
     // If there is an error, set the error in the parent, return false.
     if (isset($nextData->error)) return $this->instance->setError($nextData->message);
 
