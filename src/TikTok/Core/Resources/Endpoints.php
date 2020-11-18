@@ -116,7 +116,7 @@ class Endpoints {
       ],
 
       'user-videos'  => [
-        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'url'  => 'https://www.tiktok.com/api/item_list/?',
         'vars' => [
           'aid'             => 1988,
           'app_name'        => 'tiktok_web',
@@ -228,7 +228,7 @@ class Endpoints {
       ],
 
       'music-videos' => [
-        'url'  => 'https://m.tiktok.com/api/item_list/?',
+        'url'  => 'https://m.tiktok.com/api/music/item_list/?',
         'vars' => [
           'aid'             => 1988,
           'app_name'        => 'tiktok_web',
@@ -237,17 +237,15 @@ class Endpoints {
           'cookie_enabled'  => true,
           'did'             => '',
           'secUid'          => '',
-          'id'              => '',
-          'type'            => 1,
+          'musicID'         => '',
           'count'           => 25,
-          'minCursor'       => 0,
-          'maxCursor'       => 0,
-          'language'        => 'en',
-          'sourceType'      => '11',
+          'cursor'          => 0,
           'verifyFp'        => '',
           'region'          => 'US',
-          'appId'           => '1233'
-        ]
+          'appId'           => '1233',
+          'appType' => 'm'
+        ],
+        'disableSignature' => true
       ],
     ]
   ];

@@ -14,7 +14,7 @@ use TikTok\Scraper;
 $scraper = new Scraper($config);
 
 try {
-  $data = $scraper->music->videos(6821468236035541766, 1);
+  $data = $scraper->music->videos(6821468236035541766, 30);
 
   // Check for an error here.
   if ($scraper->error) print_r($scraper->error);

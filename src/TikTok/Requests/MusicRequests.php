@@ -79,7 +79,7 @@ class MusicRequests
    * Gets trending videos
    */
   public function videos ($id, $count = 25) {
-    $endpoint = $this->instance->endpoints->get('m.music-videos', [ 'id' => $id, 'count' => $count ]);
+    $endpoint = $this->instance->endpoints->get('m.music-videos', [ 'musicID' => $id, 'count' => $count ]);
     $musicVideos = $this->instance->request->call($endpoint)->response();
 
     // If there is an error, set the error in the parent, return false.
