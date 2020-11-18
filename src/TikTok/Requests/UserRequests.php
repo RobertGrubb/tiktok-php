@@ -139,6 +139,25 @@ class UserRequests
     return $videos;
   }
 
+  public function videoFromEmbed ($id = null) {
+
+    $endpoint = $this->instance->endpoints->get('web.user-video-embed', [ 'id' => $id ]);
+    $nextData = $this->instance->request->call($endpoint)->extract();
+
+    // If there is an error, set the error in the parent, return false.
+    if (isset($nextData->error)) return $this->instance->setError($nextData->message);
+
+    $videoData = (new \TikTok\Core\Models\Video())->fromEmbedData($nextData, [
+      'userAgent' => $this->instance->endpoints->headers['m']['User-Agent'],
+      'cookies' => [
+        'tt_webid' => $this->instance->request->cookieJar->getCookieValue('tt_webid'),
+        'tt_webid_v2' => $this->instance->request->cookieJar->getCookieValue('tt_webid_v2')
+      ]
+    ]);
+
+    return $videoData;
+  }
+
   public function video ($username = null, $id = null) {
 
     // Validate arguments

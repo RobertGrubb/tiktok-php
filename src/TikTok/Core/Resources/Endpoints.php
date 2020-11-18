@@ -48,6 +48,7 @@ class Endpoints {
       // Users
       'user-details' => 'https://www.tiktok.com/@{username}',
       'user-video'   => 'https://www.tiktok.com/@{username}/video/{id}',
+      'user-video-embed' => 'https://www.tiktok.com/embed/v2/{id}?lang=en-US',
 
       // Hashtags
       'hashtag-data' => 'https://www.tiktok.com/tag/{hashtag}?pageType=6',

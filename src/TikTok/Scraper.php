@@ -142,7 +142,7 @@ class Scraper
   /**
    * Gives ability to simply sign a url.
    */
-  public function signUrl ($url = null) {
+  public function signUrl ($url = null, $ignoreVerifyFp = false) {
     if (is_null($url)) return false;
 
     $userAgent = isset($this->config->userAgent) ? $this->config->userAgent : $this->endpoints->defaultUserAgent;

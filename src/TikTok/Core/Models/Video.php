@@ -8,6 +8,39 @@ class Video
   /**
    * Convert from next data array
    */
+  public function fromEmbedData ($NEXT_DATA, $requestInfo = false) {
+    $instance = new self();
+
+    // Validate the response data
+    if (count($NEXT_DATA) === 0)  return $this->error('__NEXT_DATA__');
+    if (!isset($NEXT_DATA['props'])) return $this->error('__NEXT_DATA__[props]');
+    if (!isset($NEXT_DATA['props']['pageProps'])) return $this->error('__NEXT_DATA__[props][pageProps]');
+    if (!isset($NEXT_DATA['props']['pageProps']['videoData'])) return $this->error('__NEXT_DATA__[props][pageProps][videoData]');
+    if (!isset($NEXT_DATA['props']['pageProps']['videoData']['itemInfos'])) return $this->error('__NEXT_DATA__[props][pageProps][videoData][itemInfos]');
+
+    // Set videoData
+    $videoData = json_decode(json_encode($NEXT_DATA['props']['pageProps']['videoData']['itemInfos']));
+
+    // set all keys from userData to the instance.
+    foreach ($videoData as $key => $val) $instance->{$key} = $val;
+
+
+    if (is_array($requestInfo)) {
+      if (isset($requestInfo['userAgent']) && isset($requestInfo['cookies'])) {
+        $instance->videoDownloadData = (object) [
+          'referer' => 'https://www.tiktok.com/',
+          'userAgent' => $requestInfo['userAgent'],
+          'cookies' => $requestInfo['cookies']
+        ];
+      }
+    }
+
+    return $instance;
+  }
+
+  /**
+   * Convert from next data array
+   */
   public function fromNextData ($NEXT_DATA, $requestInfo = false) {
     $instance = new self();
 
